@@ -4,11 +4,23 @@
     <listeners>
         <listener class-name="com.listeners.ListenerClass"/>
     </listeners>
-    <test thread-count="1" name="Regression Tests execution over Chrome
-		Browser" parallel="methods">
+    <test thread-count="1" name="Regression Tests execution over Chrome Browser" parallel="methods">
         <parameter name="browser" value="CHROME"></parameter>
         <classes>
-            <class name="com.tests.Sprint19Test"></class>
+            <class name="com.tests.SignUpPageTest"></class>
         </classes>
     </test>
+    <test thread-count="1" name="Regression Tests execution over Firefox Browser" parallel="methods">
+        <parameter name="browser" value="FIREFOX"></parameter>
+        <classes>
+            <class name="com.tests.SignUpPageTest"></class>
+        </classes>
+    </test>
+    <test thread-count="1" name="Regression Tests execution over Edge Browser" parallel="methods">
+        <parameter name="browser" value="EDGE"></parameter>
+        <classes>
+            <class name="com.tests.SignUpPageTest"></class>
+        </classes>
+    </test>
+
 </suite> <!-- Suite -->

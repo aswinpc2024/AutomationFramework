@@ -48,7 +48,13 @@ public class SignUpPageTest extends BaseTest {
     @DataProvider(name = "signUpDataProvider")
     public Object[][] signUpData() {
         return new Object[][]{
-                {"Vishnudas K", "+918892898880", "ashwi.n10n@gmail.com", "Arabic"},
+                {"Vishnudas L", "+918892898893", "ashwi.l@gmail.com", "French"},
+//                {"Vishnudas M", "+918892898894", "ashwi.m@gmail.com", "Arabic"},
+//                {"Vishnudas N", "+918892898895", "ashwi.n@gmail.com", "English"},
+//                {"Vishnudas O", "+918892898896", "ashwi.o@gmail.com", "German"},
+//                {"Vishnudas P", "+918892898897", "ashwi.p@gmail.com", "Russian"},
+//                {"Vishnudas Q", "+918892898898", "ashwi.q@gmail.com", "Urdu"},
+//                {"Vishnudas R", "+918892898892", "ashwi.r@gmail.com", "English"}
                 // You can add more data sets here to test other scenarios
                 // {"Test User Two", "+15551234567", "test.user@example.com", "Spanish"}
         };
