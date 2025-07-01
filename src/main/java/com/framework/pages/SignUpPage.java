@@ -31,6 +31,7 @@ public class SignUpPage extends BasePage {
 
 
     private final By verifyBtn = By.xpath ( "//button[contains(.,'Verify')]" );
+    private final By closeSignUpPopup = By.xpath ( "/html/body/div[2]/div/div/div/div[2]/div/div/div/div/div[1]" );
     private final By verifyNowBtn = By.xpath ( "//button[contains(.,'Verify now')]" );
 
     private final By accountCreateSuccessHeader = By.xpath ( "//p[contains(.,'Account Created')]" );
@@ -105,12 +106,16 @@ public class SignUpPage extends BasePage {
             isNewUser=false;
             System.out.println ("[DEBUG] Mobile Number already exist " );
             System.out.println ("[DEBUG] "+DriverManager.getDriver ().findElement ( mobileNumberAlreadyExistError ).getText ( ) );
+            new LoginPage ().loginToApplicationWithOTP ( emailAddress,"1234" );
         }
         else if ( isElementDisplayed ( emailIdAlreadyExistError ) )
         {
             isNewUser = false;
             System.out.println ("[DEBUG] Email already exist " );
             System.out.println ("[DEBUG] " +DriverManager.getDriver ().findElement ( emailIdAlreadyExistError ).getText () );
+            DriverManager.getDriver ().findElement (closeSignUpPopup) .click ();
+            Thread.sleep ( 5000 );
+            new LoginPage ().loginToApplicationWithOTP ( emailAddress,"1234" );
         }
         else
         {
