@@ -83,14 +83,16 @@ public class SignUpPage extends BasePage {
      *
      * @param language The visible text of the language to select (e.g., "English").
      */
-    private void selectLanguage(String language) {
+    private void selectLanguage(String language)
+    {
         click(languageDropdown, WaitStrategy.CLICKABLE, "Language dropdown");
         // Build a dynamic locator for the specific language option
         By languageOption = By.xpath ( "//span[contains(.,'"+language+"')]" );
         click(languageOption, WaitStrategy.CLICKABLE, "Language option: " + language);
     }
 
-    private Boolean fillUserDetails(String fullName, String mobileNumber, String emailAddress, String preferredLang) throws InterruptedException {
+    private Boolean fillUserDetails(String fullName, String mobileNumber, String emailAddress, String preferredLang) throws InterruptedException
+    {
         sendKeys ( nameField , fullName , WaitStrategy.VISIBLE , "Full Name field" );
         sendKeys ( phoneField , mobileNumber , WaitStrategy.NONE , "Phone Number field" );
         sendKeys ( emailField , emailAddress , WaitStrategy.NONE , "Email field" );
