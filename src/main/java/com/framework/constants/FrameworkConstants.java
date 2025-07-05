@@ -77,7 +77,7 @@ class FrameworkConstants {
 //    public static final int WAIT = 5;
 
     public static final String EXTENT_REPORT_FOLDER_PATH = PROJECT_PATH + "//ExtentReports//";
-    public static final String EXTENT_REPORT_NAME = "AutomationRepordt.html";
+    public static final String EXTENT_REPORT_NAME = "AutomationReportet.html";
     private static String extentReportFilePath = "";
 
     /** Zip file of Extent Reports */

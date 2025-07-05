@@ -12,7 +12,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class SignUpPageTest extends BaseTest {
-
     /**
      * Test to verify that a user can successfully complete the sign-up process.
      * This test is data-driven and uses the 'signUpDataProvider'.
@@ -42,6 +41,33 @@ public class SignUpPageTest extends BaseTest {
         Assert.assertEquals(signUpSuccessPage.getAccountCreateSuccessDescription(), "Thank you for signing up! Verify your documents to publish your properties with us.");
     }
 
+
+    /**
+     * Test to verify that a user can successfully complete the sign-up process.
+     * This test is data-driven and uses the 'signUpDataProvider'.
+     *
+     * @param fullName       The full name of the user.
+     * @param mobileNumber   The mobile number of the user.
+     * @param emailAddress   The email address of the user.
+     * @param preferredLang  The preferred language for the user.
+     */
+    @Test(description = "Verify successful user sign-up functionality", dataProvider = "signUpDataProvider")
+    @FrameworkAnnotation(author = {AuthorType.ASWIN_CHANDRAN_PC}, category = {CategoryType.SANITY})
+    public void testSuccessfulSignUpwithSkipDocumentVerificationAndVerifyIntroScreen(String fullName, String mobileNumber, String emailAddress, String preferredLang) throws InterruptedException {
+
+        // 1. Navigation: Start from the login page and navigate to the sign-up page.
+        // This returns the SignUpPage object, ensuring we are on the correct page.
+        LoginPage loginPage = new LoginPage();
+        SignUpPage signUpPage = loginPage.navigateToSignUpPage(); // Assuming LoginPage has this navigation method
+
+        // 2. Action: Fill the sign-up form and submit.
+        // It's good practice for the action method to return the next page object.
+        SignUpSuccessPage signUpSuccessPage = signUpPage.fillSignUpFormAndSubmitwithNewUser ( fullName, mobileNumber, emailAddress, preferredLang);
+        signUpSuccessPage.clickSkipDocumentVerification ();
+        String welcomeUser = signUpSuccessPage.getIntroScreenWelcomeMessage ( );
+        Assert.assertEquals ( welcomeUser , "Hello, "+fullName );
+    }
+
     /**
      * Provides test data for the successful sign-up test.
      * This separates the test data from the test logic, making the test reusable.
@@ -51,7 +77,7 @@ public class SignUpPageTest extends BaseTest {
     @DataProvider(name = "signUpDataProvider")
     public Object[][] signUpData() {
         return new Object[][]{
-                {"WILLIAM HENRY", "+918892898763", "william.henry@example-pet-store.com", "English"}
+                {"WILLIAM HENRY IV", "+918892898766", "william.4@example.com", "English"}
                 // You can add more data sets here to test other scenarios
                 // {"Test User Two", "+15551234567", "test.user@example.com", "Spanish"}
         };

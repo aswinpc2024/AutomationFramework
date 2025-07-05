@@ -127,7 +127,7 @@ public class SignUpPage extends BasePage {
      * @return A new instance of the DashboardPage, the expected destination after OTP verification.
      */
     public void enterOtpAndVerify (String otpType, String otp) {
-        System.out.println ("[DEBUG] Initiating OTP Verification for "+otpType);
+        System.out.println ( STR."[DEBUG] Initiating OTP Verification for \{otpType}" );
         // Basic validation to ensure the OTP is in the expected format.
         if (otp == null || otp.length() != 4) {
             throw new IllegalArgumentException("OTP must be a 4-digit string.");
@@ -135,7 +135,7 @@ public class SignUpPage extends BasePage {
 
         // Split the OTP string into individual characters
         String[] otpDigits = otp.split("");
-        System.out.println ("OTP is : "+otpDigits[0]+" "+otpDigits[1]+" "+otpDigits[2]+" "+otpDigits[3] );
+        System.out.println ( STR."OTP is : \{otpDigits[0]} \{otpDigits[1]} \{otpDigits[2]} \{otpDigits[3]}" );
         // Send each digit to its corresponding input field
         sendKeys(otpFieldOne, otpDigits[0], WaitStrategy.VISIBLE, "OTP Digit Field 1");
         sendKeys(otpFieldTwo, otpDigits[1], WaitStrategy.VISIBLE, "OTP Digit Field 2");
