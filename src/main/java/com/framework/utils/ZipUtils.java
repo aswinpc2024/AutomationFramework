@@ -30,7 +30,6 @@ class ZipUtils {
 //		ZipUtil.pack(new File(FrameworkConstants.getExtentReportFolderPath()),
 //				new File(FrameworkConstants.getZipped_ExtentReports_Folder_Name()));
 
-
         ZipUtil.pack( new File ( EXTENT_REPORT_FOLDER_PATH),
                       new File(Zipped_ExtentReports_Folder_Name));
 

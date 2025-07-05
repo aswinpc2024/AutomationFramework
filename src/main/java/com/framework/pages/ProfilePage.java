@@ -7,7 +7,7 @@ import org.openqa.selenium.By;
  * Represents the main Dashboard or Home Page that a user sees after a successful login or sign-up.
  * This class provides methods to interact with and verify elements on the dashboard.
  */
-public class DashboardPage extends BasePage {
+public class ProfilePage extends BasePage {
 
     // --- Locators ---
     // These are example locators. Please adjust them to match your application's actual HTML.
@@ -36,4 +36,8 @@ public class DashboardPage extends BasePage {
         // Uses the getText helper from BasePage, which includes an explicit wait.
         return getText(welcomeMessageHeader, WaitStrategy.VISIBLE);
     }
+
+
+
+
 }

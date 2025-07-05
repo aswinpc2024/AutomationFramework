@@ -40,6 +40,9 @@ public class BasePage {
     }
 
     protected String getText(By by, WaitStrategy waitStrategy) {
+        WebElement element = WaitUtils.performExplicitWait(by, waitStrategy);
+        String text = element.getText ();
+        ExtentLogger.pass(text);
         return WaitUtils.performExplicitWait(by, waitStrategy).getText();
     }
 

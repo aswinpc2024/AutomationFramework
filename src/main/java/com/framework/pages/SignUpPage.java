@@ -32,13 +32,10 @@ public class SignUpPage extends BasePage {
 
     private final By verifyBtn = By.xpath ( "//button[contains(.,'Verify')]" );
     private final By closeSignUpPopup = By.xpath ( "/html/body/div[2]/div/div/div/div[2]/div/div/div/div/div[1]" );
-    private final By verifyNowBtn = By.xpath ( "//button[contains(.,'Verify now')]" );
 
-    private final By accountCreateSuccessHeader = By.xpath ( "//p[contains(.,'Account Created')]" );
-    private final By accountCreateSuccessDescription = By.xpath ( "//span[contains(.,'Thank you for signing up! Verify your documents to publish your properties with us.')]" );
-    private final By skipDocumentVerificationBtn = By.xpath ( "//button[contains(.,'Skip, I will do it later')]" );
 
     // --- Page Methods ---
+
     /**
      * Checks if a key element (the name field) is visible to confirm the page has loaded.
      *
@@ -59,7 +56,7 @@ public class SignUpPage extends BasePage {
      * @param preferredLang  The preferred language for the user.
      * @return A new instance of the DashboardPage, the expected destination after signing up.
      */
-    public DashboardPage fillSignUpFormAndSubmit( String fullName, String mobileNumber, String emailAddress, String preferredLang) throws InterruptedException {
+    public SignUpSuccessPage fillSignUpFormAndSubmitwithNewUser(String fullName, String mobileNumber, String emailAddress, String preferredLang) throws InterruptedException {
 
         if(isPageLoaded ())
         {
@@ -76,7 +73,7 @@ public class SignUpPage extends BasePage {
                 System.out.println ("Email or Mobile Number Already exist!" );
             }
         }
-        return new DashboardPage();
+        return new SignUpSuccessPage ();
     }
 
     /**
@@ -84,16 +81,14 @@ public class SignUpPage extends BasePage {
      *
      * @param language The visible text of the language to select (e.g., "English").
      */
-    private void selectLanguage(String language)
-    {
+    private void selectLanguage(String language) {
         click(languageDropdown, WaitStrategy.CLICKABLE, "Language dropdown");
         // Build a dynamic locator for the specific language option
         By languageOption = By.xpath ( "//span[contains(.,'"+language+"')]" );
         click(languageOption, WaitStrategy.CLICKABLE, "Language option: " + language);
     }
 
-    private Boolean fillUserDetails(String fullName, String mobileNumber, String emailAddress, String preferredLang) throws InterruptedException
-    {
+    private Boolean fillUserDetails(String fullName, String mobileNumber, String emailAddress, String preferredLang) throws InterruptedException{
         sendKeys ( nameField , fullName , WaitStrategy.VISIBLE , "Full Name field" );
         sendKeys ( phoneField , mobileNumber , WaitStrategy.NONE , "Phone Number field" );
         sendKeys ( emailField , emailAddress , WaitStrategy.NONE , "Email field" );
@@ -104,15 +99,15 @@ public class SignUpPage extends BasePage {
         if(isElementDisplayed ( mobileNumberAlreadyExistError ))
         {
             isNewUser=false;
-            System.out.println ("[DEBUG] Mobile Number already exist " );
-            System.out.println ("[DEBUG] "+DriverManager.getDriver ().findElement ( mobileNumberAlreadyExistError ).getText ( ) );
+            System.out.println ("[DEBUG] "+DriverManager.getDriver ().findElement ( mobileNumberAlreadyExistError ).getText ( )+", So Initiating Login with given mobile number" );
+            DriverManager.getDriver ().findElement (closeSignUpPopup) .click ();
+            Thread.sleep ( 5000 );
             new LoginPage ().loginToApplicationWithOTP ( emailAddress,"1234" );
         }
         else if ( isElementDisplayed ( emailIdAlreadyExistError ) )
         {
             isNewUser = false;
-            System.out.println ("[DEBUG] Email already exist " );
-            System.out.println ("[DEBUG] " +DriverManager.getDriver ().findElement ( emailIdAlreadyExistError ).getText () );
+            System.out.println ("[DEBUG] " +DriverManager.getDriver ().findElement ( emailIdAlreadyExistError ).getText () +", So Initiating Login with given Email address");
             DriverManager.getDriver ().findElement (closeSignUpPopup) .click ();
             Thread.sleep ( 5000 );
             new LoginPage ().loginToApplicationWithOTP ( emailAddress,"1234" );

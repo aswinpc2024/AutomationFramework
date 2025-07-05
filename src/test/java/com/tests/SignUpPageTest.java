@@ -3,9 +3,11 @@ package com.tests;
 import com.framework.annotations.FrameworkAnnotation;
 import com.framework.enums.AuthorType;
 import com.framework.enums.CategoryType;
-import com.framework.pages.DashboardPage; // Assuming this is the page after successful sign-up
+import com.framework.pages.ProfilePage; // Assuming this is the page after successful sign-up
 import com.framework.pages.LoginPage;
 import com.framework.pages.SignUpPage;
+import com.framework.pages.SignUpSuccessPage;
+import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -31,12 +33,13 @@ public class SignUpPageTest extends BaseTest {
 
         // 2. Action: Fill the sign-up form and submit.
         // It's good practice for the action method to return the next page object.
-        DashboardPage dashboardPage = signUpPage.fillSignUpFormAndSubmit(fullName, mobileNumber, emailAddress, preferredLang);
+        SignUpSuccessPage signUpSuccessPage = signUpPage.fillSignUpFormAndSubmitwithNewUser ( fullName, mobileNumber, emailAddress, preferredLang);
+
 
         // 3. Assertion: Verify that the sign-up was successful.
         // A good verification is to check if we landed on the expected page (e.g., a Dashboard).
-//        Assert.assertTrue(dashboardPage.isPageLoaded(), "User was not redirected to the Dashboard after sign-up.");
-//        Assert.assertEquals(dashboardPage.getWelcomeMessage(), "Welcome, " + fullName, "The welcome message is incorrect.");
+        Assert.assertEquals( signUpSuccessPage.getAccountCreateSuccessHeader () , "Account Created");
+        Assert.assertEquals(signUpSuccessPage.getAccountCreateSuccessDescription(), "Thank you for signing up! Verify your documents to publish your properties with us.");
     }
 
     /**
@@ -48,7 +51,7 @@ public class SignUpPageTest extends BaseTest {
     @DataProvider(name = "signUpDataProvider")
     public Object[][] signUpData() {
         return new Object[][]{
-                {"Vishnudas K", "+918892898880", "ashwi.n10n@gmail.com", "Arabic"},
+                {"WILLIAM HENRY", "+918892898763", "william.henry@example-pet-store.com", "English"}
                 // You can add more data sets here to test other scenarios
                 // {"Test User Two", "+15551234567", "test.user@example.com", "Spanish"}
         };
