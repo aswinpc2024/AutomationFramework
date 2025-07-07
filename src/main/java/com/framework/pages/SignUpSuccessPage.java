@@ -80,7 +80,7 @@ public class SignUpSuccessPage extends BasePage
      * @return The text of the welcome message.
      * @throws org.openqa.selenium.TimeoutException if the intro screen or message does not appear within the configured wait time.
      */
-    public String getIntroScreenWelcomeMessage() {
+    public String getIntroScreenWelcomeMessage() throws InterruptedException {
         waitForPageLoad ();
         // The getText helper method from your BasePage will wait for the element
         // to become visible before retrieving its text. This is the most efficient
@@ -88,11 +88,38 @@ public class SignUpSuccessPage extends BasePage
         String message = getText( welcomeUserMessage, WaitStrategy.VISIBLE);
         System.out.println ("[DEBUG] Evaluating intro screen welcome message....." );
         System.out.println ("[DEBUG] Intro screen welcome message: '" + message + "'" );
-
-
+        highlightByElement ( welcomeUserMessage );
         // Use the framework's logger for better reporting.
         ExtentLogger.info("Intro screen welcome message: '" + message + "'");
-
+        Thread.sleep ( 5000 );
+        return message;
+    }
+    public String getIntroScreenWelcomeToProsperText() throws InterruptedException {
+        waitForPageLoad ();
+        // The getText helper method from your BasePage will wait for the element
+        // to become visible before retrieving its text. This is the most efficient
+        // way to handle this, as it combines waiting and action in one step.
+        String message = getText( welcomeToProsper, WaitStrategy.VISIBLE);
+        System.out.println ("[DEBUG] Evaluating intro screen ....." );
+        System.out.println ("[DEBUG] Intro screen welcome to prosper text: '" + message + "'" );
+        highlightByElement ( welcomeToProsper );
+        // Use the framework's logger for better reporting.
+        ExtentLogger.info("Intro screen welcome to prosper text: '" + message + "'");
+        Thread.sleep ( 5000 );
+        return message;
+    }
+    public String getIntroScreenDescription() throws InterruptedException {
+        waitForPageLoad ();
+        // The getText helper method from your BasePage will wait for the element
+        // to become visible before retrieving its text. This is the most efficient
+        // way to handle this, as it combines waiting and action in one step.
+        String message = getText( introScreenDescription, WaitStrategy.VISIBLE);
+        System.out.println ("[DEBUG] Evaluating intro screen ....." );
+        System.out.println ("[DEBUG] Intro screen description: '" + message + "'" );
+        highlightByElement ( introScreenDescription );
+        // Use the framework's logger for better reporting.
+        ExtentLogger.info("Intro screen description: '" + message + "'");
+        Thread.sleep ( 5000 );
         return message;
     }
 

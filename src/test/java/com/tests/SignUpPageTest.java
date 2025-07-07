@@ -63,9 +63,17 @@ public class SignUpPageTest extends BaseTest {
         // 2. Action: Fill the sign-up form and submit.
         // It's good practice for the action method to return the next page object.
         SignUpSuccessPage signUpSuccessPage = signUpPage.fillSignUpFormAndSubmitwithNewUser ( fullName, mobileNumber, emailAddress, preferredLang);
+
         signUpSuccessPage.clickSkipDocumentVerification ();
         String welcomeUser = signUpSuccessPage.getIntroScreenWelcomeMessage ( );
+        String welcomeToProsper = signUpSuccessPage.getIntroScreenWelcomeToProsperText ();
+        String introScreenDescription = signUpSuccessPage.getIntroScreenDescription ();
+
+        // 3. Assertion: Verify that the sign-up was successful.
         Assert.assertEquals ( welcomeUser , "Hello, "+fullName );
+        Assert.assertEquals ( welcomeToProsper , "Welcome to Prosper" );
+        Assert.assertEquals ( introScreenDescription , "With powerful data, smart insights and personalized service, Prosper makes your property journey smoother, smarter and more rewarding." );
+
     }
 
     /**
@@ -77,7 +85,7 @@ public class SignUpPageTest extends BaseTest {
     @DataProvider(name = "signUpDataProvider")
     public Object[][] signUpData() {
         return new Object[][]{
-                {"WILLIAM HENRY IV", "+918892898766", "william.4@example.com", "English"}
+                {"WILLIAM HENRY IX", "+918892898751", "william.9@example.com", "English"}
                 // You can add more data sets here to test other scenarios
                 // {"Test User Two", "+15551234567", "test.user@example.com", "Spanish"}
         };

@@ -75,14 +75,23 @@ public class BaseTest {
     {
         System.out.println("[DEBUG] Starting tearDown method...");
 
-        if (result.getStatus() == ITestResult.FAILURE)
+        if (result.getStatus() == ITestResult.SUCCESS)
         {
+            System.out.println("[DEBUG] Test Passed: Logging Pass...");
+            ExtentLogger.pass (result.getTestName ());
+            {
+                System.out.println("[DEBUG] Taking screenshot on Success...");
+                ExtentLogger.logWithScreenshot("Test Success", Status.PASS);
+            }
+        }
+        else if ( result.getStatus() == ITestResult.FAILURE ) {
             System.out.println("[DEBUG] Test failed: Logging failure...");
             ExtentLogger.fail(result.getThrowable().getMessage());
             {
                 System.out.println("[DEBUG] Taking screenshot on failure...");
                 ExtentLogger.logWithScreenshot("Test Failed", Status.FAIL);
             }
+
         }
 
         System.out.println("[DEBUG] Quitting WebDriver...");

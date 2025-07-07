@@ -57,6 +57,12 @@
           <artifactId>json</artifactId>
           <version>20250107</version>
       </dependency>
+      <!-- https://mvnrepository.com/artifact/com.applitools/eyes-selenium-java5 -->
+      <dependency>
+          <groupId>com.applitools</groupId>
+          <artifactId>eyes-selenium-java5</artifactId>
+          <version>5.80.0</version>
+      </dependency>
       <dependency>
           <groupId>com.opencsv</groupId>
           <artifactId>opencsv</artifactId>
