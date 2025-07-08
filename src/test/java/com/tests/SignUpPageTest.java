@@ -3,7 +3,6 @@ package com.tests;
 import com.framework.annotations.FrameworkAnnotation;
 import com.framework.enums.AuthorType;
 import com.framework.enums.CategoryType;
-import com.framework.pages.ProfilePage; // Assuming this is the page after successful sign-up
 import com.framework.pages.LoginPage;
 import com.framework.pages.SignUpPage;
 import com.framework.pages.SignUpSuccessPage;
@@ -61,19 +60,29 @@ public class SignUpPageTest extends BaseTest {
         SignUpPage signUpPage = loginPage.navigateToSignUpPage(); // Assuming LoginPage has this navigation method
 
         // 2. Action: Fill the sign-up form and submit.
-        // It's good practice for the action method to return the next page object.
         SignUpSuccessPage signUpSuccessPage = signUpPage.fillSignUpFormAndSubmitwithNewUser ( fullName, mobileNumber, emailAddress, preferredLang);
 
+        // 3. Action: Click the "Skip, I will do it later" button to bypass document verification.
         signUpSuccessPage.clickSkipDocumentVerification ();
+
         String welcomeUser = signUpSuccessPage.getIntroScreenWelcomeMessage ( );
         String welcomeToProsper = signUpSuccessPage.getIntroScreenWelcomeToProsperText ();
-        String introScreenDescription = signUpSuccessPage.getIntroScreenDescription ();
+        String introScreenFirstDescription = signUpSuccessPage.getIntroScreenFirstDescription ();
+        String introScreenSecondDescription = signUpSuccessPage.getIntroScreenSecondDescription ();
+        String introScreenFeatureCardOne = signUpSuccessPage.getIntroScreenFeatureCardOne ( );
+        String introScreenFeatureCardTwo = signUpSuccessPage.getIntroScreenFeatureCardTwo ( );
+        String introScreenFeatureCardThree = signUpSuccessPage.getIntroScreenFeatureCardThree( );
 
-        // 3. Assertion: Verify that the sign-up was successful.
+        //4. Assertion: Verify Intro Screen Welcome Message and description.
         Assert.assertEquals ( welcomeUser , "Hello, "+fullName );
         Assert.assertEquals ( welcomeToProsper , "Welcome to Prosper" );
-        Assert.assertEquals ( introScreenDescription , "With powerful data, smart insights and personalized service, Prosper makes your property journey smoother, smarter and more rewarding." );
+        Assert.assertEquals ( introScreenFirstDescription , "With powerful data, smart insights and personalized service, Prosper makes your property journey smoother, smarter and more rewarding." );
+        Assert.assertEquals ( introScreenSecondDescription,"We help you stay ahead and make confident decisions.");
 
+        //5.Assertion: Verify Intro Screen Feature Cards
+        Assert.assertEquals ( introScreenFeatureCardOne,"Automated Dashboard" );
+        Assert.assertEquals ( introScreenFeatureCardTwo,"Sell or Rent your property");
+        Assert.assertEquals ( introScreenFeatureCardThree,"Mortgages" );
     }
 
     /**
@@ -85,7 +94,7 @@ public class SignUpPageTest extends BaseTest {
     @DataProvider(name = "signUpDataProvider")
     public Object[][] signUpData() {
         return new Object[][]{
-                {"WILLIAM HENRY IX", "+918892898751", "william.9@example.com", "English"}
+                {"OJAS VI", "+971501975285","ojas.vi@gmail.com", "English"}
                 // You can add more data sets here to test other scenarios
                 // {"Test User Two", "+15551234567", "test.user@example.com", "Spanish"}
         };

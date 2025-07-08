@@ -17,8 +17,13 @@ public class SignUpSuccessPage extends BasePage
     private final By introScreen = By.xpath ( "/html/body/div[4]/div[2]" );
     private final By welcomeUserMessage = By.xpath("//div[2]/p[contains(normalize-space(),'Hello')]");
     private final By welcomeToProsper = By.xpath ( "(//div/div[1]/div[2]/p[2])[3]" );
-    private final By introScreenDescription = By.xpath ( "(//div/div[1]/div[2]/p[1])[6]" );
-//    private final By
+    private final By introScreenFirstDescription = By.xpath ( "(//div/div[1]/div[2]/p[1])[6]" );
+    private final By introScreenSecondDescription = By.xpath ("//p[starts-with(text(),'We help')]"  );
+    private final By featuresCardOne = By.xpath ( "//span[normalize-space()='Automated Dashboard']" );
+    private final By featuresCardTwo = By.xpath ( "//span[normalize-space()='Sell or Rent your property']" );
+    private final By featuresCardThree = By.xpath ( "//span[normalize-space()='Mortgages']" );
+    private final By leftGridHeader = By.xpath("//p[starts-with(text(),'Any Time')]");
+
 
 
     // --- Page Methods ---
@@ -70,8 +75,6 @@ public class SignUpSuccessPage extends BasePage
         click(skipDocumentVerificationBtn, WaitStrategy.CLICKABLE, "Skip Document Verification Button");
     }
 
-
-
     /**
      * Waits for the intro screen to appear and retrieves the welcome message.
      * This method replaces the need for a manual if/else check by using an
@@ -108,17 +111,88 @@ public class SignUpSuccessPage extends BasePage
         Thread.sleep ( 5000 );
         return message;
     }
-    public String getIntroScreenDescription() throws InterruptedException {
+    public String getIntroScreenFirstDescription () throws InterruptedException {
         waitForPageLoad ();
         // The getText helper method from your BasePage will wait for the element
         // to become visible before retrieving its text. This is the most efficient
         // way to handle this, as it combines waiting and action in one step.
-        String message = getText( introScreenDescription, WaitStrategy.VISIBLE);
+        String message = getText( introScreenFirstDescription, WaitStrategy.VISIBLE);
         System.out.println ("[DEBUG] Evaluating intro screen ....." );
-        System.out.println ("[DEBUG] Intro screen description: '" + message + "'" );
-        highlightByElement ( introScreenDescription );
+        System.out.println ("[DEBUG] Intro screen first description: '" + message + "'" );
+        highlightByElement ( introScreenFirstDescription );
         // Use the framework's logger for better reporting.
-        ExtentLogger.info("Intro screen description: '" + message + "'");
+        ExtentLogger.info("Intro screen first description: '" + message + "'");
+        Thread.sleep ( 5000 );
+        return message;
+    }
+    public String getIntroScreenSecondDescription () throws InterruptedException {
+        waitForPageLoad ();
+        // The getText helper method from your BasePage will wait for the element
+        // to become visible before retrieving its text. This is the most efficient
+        // way to handle this, as it combines waiting and action in one step.
+        String message = getText( introScreenSecondDescription, WaitStrategy.VISIBLE);
+        System.out.println ("[DEBUG] Evaluating intro screen ....." );
+        System.out.println ("[DEBUG] Intro screen second description: '" + message + "'" );
+        highlightByElement ( introScreenSecondDescription );
+        // Use the framework's logger for better reporting.
+        ExtentLogger.info("Intro screen second description: '" + message + "'");
+        Thread.sleep ( 5000 );
+        return message;
+    }
+    public String getIntroScreenFeatureCardOne () throws InterruptedException {
+        waitForPageLoad ();
+        // The getText helper method from your BasePage will wait for the element
+        // to become visible before retrieving its text. This is the most efficient
+        // way to handle this, as it combines waiting and action in one step.
+        String message = getText( featuresCardOne, WaitStrategy.VISIBLE);
+        System.out.println ("[DEBUG] Evaluating intro screen ....." );
+        System.out.println ("[DEBUG] Intro screen feature card one: '" + message + "'" );
+        highlightByElement ( featuresCardOne );
+        // Use the framework's logger for better reporting.
+        ExtentLogger.info("Intro screen feature card one: '" + message + "'");
+        Thread.sleep ( 5000 );
+        return message;
+    }
+    public String getIntroScreenFeatureCardTwo () throws InterruptedException {
+        waitForPageLoad ();
+        // The getText helper method from your BasePage will wait for the element
+        // to become visible before retrieving its text. This is the most efficient
+        // way to handle this, as it combines waiting and action in one step.
+        String message = getText( featuresCardTwo, WaitStrategy.VISIBLE);
+        System.out.println ("[DEBUG] Evaluating intro screen ....." );
+        System.out.println ("[DEBUG] Intro screen feature card two: '" + message + "'" );
+        highlightByElement ( featuresCardTwo );
+        // Use the framework's logger for better reporting.
+        ExtentLogger.info("Intro screen feature card two: '" + message + "'");
+        Thread.sleep ( 5000 );
+        return message;
+    }
+    public String getIntroScreenFeatureCardThree () throws InterruptedException {
+        waitForPageLoad ();
+        // The getText helper method from your BasePage will wait for the element
+        // to become visible before retrieving its text. This is the most efficient
+        // way to handle this, as it combines waiting and action in one step.
+        String message = getText( featuresCardThree, WaitStrategy.VISIBLE);
+        System.out.println ("[DEBUG] Evaluating intro screen ....." );
+        System.out.println ("[DEBUG] Intro screen feature card three: '" + message + "'" );
+        highlightByElement ( featuresCardThree );
+        // Use the framework's logger for better reporting.
+        ExtentLogger.info("Intro screen feature card three: '" + message + "'");
+        Thread.sleep ( 5000 );
+        return message;
+    }
+
+    public String getIntroScreenLeftGridHeader () throws InterruptedException {
+        waitForPageLoad ();
+        // The getText helper method from your BasePage will wait for the element
+        // to become visible before retrieving its text. This is the most efficient
+        // way to handle this, as it combines waiting and action in one step.
+        String message = getText( leftGridHeader, WaitStrategy.VISIBLE);
+        System.out.println ("[DEBUG] Evaluating intro screen ....." );
+        System.out.println ("[DEBUG] Intro screen Left Grid Header: '" + message + "'" );
+        highlightByElement ( leftGridHeader );
+        // Use the framework's logger for better reporting.
+        ExtentLogger.info("Intro screen Left Grid Header: '" + message + "'");
         Thread.sleep ( 5000 );
         return message;
     }
