@@ -10,8 +10,10 @@ import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.framework.utils.ScreenshotUtils;
 
-public class ExtentLogger {
-    private ExtentLogger() {
+public class ExtentLogger
+{
+    private ExtentLogger()
+    {
         // Private constructor to prevent instantiation
     }
 

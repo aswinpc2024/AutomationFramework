@@ -12,7 +12,6 @@ public class BayutScraper
 {
     public static void main(String[] args) throws IOException, InterruptedException {
         // Set your ChromeDriver path
-
 //        ChromeOptions options = new ChromeOptions();
 //        options.addArguments("--headless"); // optional
         WebDriver driver = new ChromeDriver ( );

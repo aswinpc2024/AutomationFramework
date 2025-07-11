@@ -4,6 +4,8 @@ import com.framework.driver.DriverManager;
 import com.framework.enums.WaitStrategy;
 import org.openqa.selenium.By;
 
+import java.util.HashMap;
+
 /**
  * Represents the Sign Up page of the application.
  * This class follows the Page Object Model pattern, providing an API
@@ -11,8 +13,15 @@ import org.openqa.selenium.By;
  */
 public class SignUpPage extends BasePage {
 
-    Boolean isNewUser;
+    // 1. Navigation: Start from the login page and navigate to the sign-up page.
+    // This returns the SignUpPage object, ensuring we are on the correct page.
+    LoginPage loginPage = new LoginPage();
+    SignUpSuccessPage signUpSuccessPage = new SignUpSuccessPage ();
+    OTPpage otpPage = new OTPpage ();
 
+    Boolean isNewUser;
+    HashMap<String,String> introScreenData = new HashMap<> ();
+    HashMap<String,Boolean> isUserExist = new HashMap<> ();
     // --- Locators ---
     private final By nameField = By.name("name");
     private final By phoneField = By.name("phone");
@@ -21,21 +30,17 @@ public class SignUpPage extends BasePage {
     private final By agreeChkBox = By.xpath ( "//span[@class='geekmark']" );
     private final By continueBtn =By.xpath ( "//button[contains(text(),'Continue')]" );
 
-    private final By otpFieldOne =By.xpath ( "//input[@aria-label='Please enter OTP character 1']" );
-    private final By otpFieldTwo =By.xpath ( "//input[@aria-label='Please enter OTP character 2']" );
-    private final By otpFieldThree =By.xpath ( "//input[@aria-label='Please enter OTP character 3']" );
-    private final By otpFieldFour =By.xpath ( "//input[@aria-label='Please enter OTP character 4']" );
+
 
     private final By mobileNumberAlreadyExistError = By.xpath ( "//div[2]/span[text()='The mobile is already registered with prosper']" );
     private final By emailIdAlreadyExistError = By.xpath ( "//span[text()='The email is already registered with prosper.']" );
 
-
-    private final By verifyBtn = By.xpath ( "//button[contains(.,'Verify')]" );
     private final By closeSignUpPopup = By.xpath ( "/html/body/div[2]/div/div/div/div[2]/div/div/div/div/div[1]" );
 
-
+    public
+    SignUpPage ( ) throws InterruptedException {
+    }
     // --- Page Methods ---
-
     /**
      * Checks if a key element (the name field) is visible to confirm the page has loaded.
      *
@@ -45,7 +50,6 @@ public class SignUpPage extends BasePage {
         // Using the robust helper method inherited from BasePage
         return isElementDisplayed(nameField);
     }
-
     /**
      * Fills the sign-up form with user data and submits it.
      * This is a high-level method that makes test scripts clean and readable.
@@ -56,24 +60,26 @@ public class SignUpPage extends BasePage {
      * @param preferredLang  The preferred language for the user.
      * @return A new instance of the DashboardPage, the expected destination after signing up.
      */
-    public SignUpSuccessPage fillSignUpFormAndSubmitwithNewUser(String fullName, String mobileNumber, String emailAddress, String preferredLang) throws InterruptedException {
+    public HashMap<String,String> fillSignUpFormAndSubmitwithNewUser(String fullName, String mobileNumber, String emailAddress, String preferredLang) throws InterruptedException {
 
+        loginPage.navigateToSignUpPage();
         if(isPageLoaded ())
         {
-            if(fillUserDetails(fullName,mobileNumber,emailAddress,preferredLang))
+            if(fillUserDetails(fullName,mobileNumber,emailAddress,preferredLang).get ( "isNewUser" ))
             {
-                // OTP verification for Mobile Number and Email
-                enterOtpAndVerify ( "Mobile Number" , "1234" );
+                otpPage.enterOtpAndVerify ( "email", "1234" );
                 Thread.sleep ( 5000 );
-                enterOtpAndVerify ( "Email" , "1234" );
-                Thread.sleep ( 5000 );
+                otpPage.enterOtpAndVerify ( "mobile", "1234" );
+                // 3. Action: Click the "Skip, I will do it later" button to bypass document verification.
+                signUpSuccessPage.clickSkipDocumentVerification ();
+                introScreenData = signUpSuccessPage.getIntroScreenData ();
             }
             else
             {
                 System.out.println ("Email or Mobile Number Already exist!" );
             }
         }
-        return new SignUpSuccessPage ();
+        return introScreenData;
     }
 
     /**
@@ -88,61 +94,42 @@ public class SignUpPage extends BasePage {
         click(languageOption, WaitStrategy.CLICKABLE, "Language option: " + language);
     }
 
-    private Boolean fillUserDetails(String fullName, String mobileNumber, String emailAddress, String preferredLang) throws InterruptedException{
+    private HashMap<String,Boolean> fillUserDetails(String fullName, String mobileNumber, String emailAddress, String preferredLang) throws InterruptedException{
         sendKeys ( nameField , fullName , WaitStrategy.VISIBLE , "Full Name field" );
         sendKeys ( phoneField , mobileNumber , WaitStrategy.NONE , "Phone Number field" );
         sendKeys ( emailField , emailAddress , WaitStrategy.NONE , "Email field" );
         selectLanguage ( preferredLang );
         click ( agreeChkBox , WaitStrategy.CLICKABLE , "Terms and Conditions Checkbox" );
         click ( continueBtn , WaitStrategy.CLICKABLE , "Continue Button" );
-        Thread.sleep ( 5000 );
+
         if(isElementDisplayed ( mobileNumberAlreadyExistError ))
         {
-            isNewUser=false;
-            System.out.println ("[DEBUG] "+DriverManager.getDriver ().findElement ( mobileNumberAlreadyExistError ).getText ( )+", So Initiating Login with given mobile number" );
-            DriverManager.getDriver ().findElement (closeSignUpPopup) .click ();
-            Thread.sleep ( 5000 );
-            new LoginPage ().loginToApplicationWithOTP ( emailAddress,"1234" );
+            isUserExist.put (DriverManager.getDriver ().findElement ( mobileNumberAlreadyExistError ).getText ( ),false );
+            System.out.println ( STR."[DEBUG] \{DriverManager.getDriver ( ).findElement ( mobileNumberAlreadyExistError ).getText ( )}, So Initiating Login with given mobile number" );
+            closeSignUpPopupAndSigninWithOtp(mobileNumber);
         }
         else if ( isElementDisplayed ( emailIdAlreadyExistError ) )
         {
-            isNewUser = false;
-            System.out.println ("[DEBUG] " +DriverManager.getDriver ().findElement ( emailIdAlreadyExistError ).getText () +", So Initiating Login with given Email address");
-            DriverManager.getDriver ().findElement (closeSignUpPopup) .click ();
-            Thread.sleep ( 5000 );
-            new LoginPage ().loginToApplicationWithOTP ( emailAddress,"1234" );
+            isUserExist.put (DriverManager.getDriver ().findElement ( emailIdAlreadyExistError ).getText ( ),false  );
+            System.out.println ( STR."[DEBUG] \{DriverManager.getDriver ( ).findElement ( emailIdAlreadyExistError ).getText ( )}, So Initiating Login with given Email address" );
+            closeSignUpPopupAndSigninWithOtp(emailAddress);
         }
         else
         {
             isNewUser = true;
+            // 3. Action: Click the "Skip, I will do it later"
+            // button to bypass document verification.
+            signUpSuccessPage.clickSkipDocumentVerification ();
+            introScreenData = signUpSuccessPage.getIntroScreenData ();
         }
-        return isNewUser;
+        return isUserExist;
     }
 
-    /**
-     * Enters the 4-digit OTP and submits the form to complete the Mobile number and Email verification process.
-     * This method assumes the OTP is entered into four separate input fields.
-     *
-     * @param otp The 4-digit OTP as a String (e.g., "1234").
-     * @return A new instance of the DashboardPage, the expected destination after OTP verification.
-     */
-    public void enterOtpAndVerify (String otpType, String otp) {
-        System.out.println ( STR."[DEBUG] Initiating OTP Verification for \{otpType}" );
-        // Basic validation to ensure the OTP is in the expected format.
-        if (otp == null || otp.length() != 4) {
-            throw new IllegalArgumentException("OTP must be a 4-digit string.");
-        }
 
-        // Split the OTP string into individual characters
-        String[] otpDigits = otp.split("");
-        System.out.println ( STR."OTP is : \{otpDigits[0]} \{otpDigits[1]} \{otpDigits[2]} \{otpDigits[3]}" );
-        // Send each digit to its corresponding input field
-        sendKeys(otpFieldOne, otpDigits[0], WaitStrategy.VISIBLE, "OTP Digit Field 1");
-        sendKeys(otpFieldTwo, otpDigits[1], WaitStrategy.VISIBLE, "OTP Digit Field 2");
-        sendKeys(otpFieldThree, otpDigits[2], WaitStrategy.VISIBLE, "OTP Digit Field 3");
-        sendKeys(otpFieldFour, otpDigits[3], WaitStrategy.VISIBLE, "OTP Digit Field 4");
-        click ( verifyBtn, WaitStrategy.CLICKABLE, "Verify Button" );
-        waitForPageLoad ();
-        System.out.println ("[DEBUG] OTP Verification for "+ otpType +" Completed" );
+    public void closeSignUpPopupAndSigninWithOtp(String otpType) throws InterruptedException {
+        DriverManager.getDriver ().findElement (closeSignUpPopup) .click ();
+        Thread.sleep ( 5000 );
+        new LoginPage ().loginToApplicationWithOTP ( otpType,"1234" );
     }
+
 }

@@ -71,7 +71,7 @@ public class LoginPage extends BasePage
      *
      * @return A new instance of the SignUpPage.
      */
-    public SignUpPage navigateToSignUpPage() {
+    public SignUpPage navigateToSignUpPage() throws InterruptedException {
         // Step 1: Click the main login button to open the login form.
         click(btnLogin, WaitStrategy.CLICKABLE, "Login button");
 

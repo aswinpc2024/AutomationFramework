@@ -6,8 +6,11 @@ import com.framework.reports.ExtentLogger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.util.HashMap;
+
 public class SignUpSuccessPage extends BasePage
 {
+    HashMap<String,String> introScreenData = new HashMap<> ();
     // --- Signup Success Page Locators ---
     private final By accountCreateSuccessHeader = By.xpath ( "//div/p[contains(.,'Account Created')]" );
     private final By accountCreateSuccessDescription = By.xpath ( "//div/span[contains(.,'Thank you for signing up! Verify your documents to publish your properties with us.')]" );
@@ -16,15 +19,23 @@ public class SignUpSuccessPage extends BasePage
     // --- Intro Screen Locators ---
     private final By introScreen = By.xpath ( "/html/body/div[4]/div[2]" );
     private final By welcomeUserMessage = By.xpath("//div[2]/p[contains(normalize-space(),'Hello')]");
-    private final By welcomeToProsper = By.xpath ( "(//div/div[1]/div[2]/p[2])[3]" );
+    private final By welcometoProsper = By.xpath ( "(//div/div[1]/div[2]/p[2])[3]" );
     private final By introScreenFirstDescription = By.xpath ( "(//div/div[1]/div[2]/p[1])[6]" );
     private final By introScreenSecondDescription = By.xpath ("//p[starts-with(text(),'We help')]"  );
+    //Feature Cards
     private final By featuresCardOne = By.xpath ( "//span[normalize-space()='Automated Dashboard']" );
     private final By featuresCardTwo = By.xpath ( "//span[normalize-space()='Sell or Rent your property']" );
     private final By featuresCardThree = By.xpath ( "//span[normalize-space()='Mortgages']" );
+    //Left Grid
     private final By leftGridHeader = By.xpath("//p[starts-with(text(),'Any Time')]");
+    private final By leftGridDescription = By.xpath("//p[starts-with(text(),'A dedicated')]");
+    //Buttons
+    private final By nextBtn =By.xpath ( "//span[starts-with(text(),'Next')]" );
+    private final By skipAndTakeProfileTourBtn  =By.xpath ( "//span[starts-with(text(),'Skip')]" );
 
-
+    public
+    SignUpSuccessPage ( ) throws InterruptedException {
+    }
 
     // --- Page Methods ---
     /**
@@ -74,6 +85,24 @@ public class SignUpSuccessPage extends BasePage
         waitForPageLoad ();
         click(skipDocumentVerificationBtn, WaitStrategy.CLICKABLE, "Skip Document Verification Button");
     }
+    /**
+     * Clicks the "Next" button to move the next page of info Screen.
+     *
+     * @return A new instance of the ProfilePage, as skipping typically leads to the user's profile or dashboard.
+     */
+    public void clickIntroScreenNextButton() {
+        waitForPageLoad ();
+        click(nextBtn, WaitStrategy.CLICKABLE, "Next");
+    }
+    /**
+     * Clicks the "Skip & Take profile tour" button to Skip the intro screen.
+     *
+     * @return A new instance of the ProfilePage, as skipping typically leads to the user's profile or dashboard.
+     */
+    public void clickIntroScreenSkip() {
+        waitForPageLoad ();
+        click(skipAndTakeProfileTourBtn, WaitStrategy.CLICKABLE, "Next");
+    }
 
     /**
      * Waits for the intro screen to appear and retrieves the welcome message.
@@ -102,10 +131,10 @@ public class SignUpSuccessPage extends BasePage
         // The getText helper method from your BasePage will wait for the element
         // to become visible before retrieving its text. This is the most efficient
         // way to handle this, as it combines waiting and action in one step.
-        String message = getText( welcomeToProsper, WaitStrategy.VISIBLE);
+        String message = getText( welcometoProsper, WaitStrategy.VISIBLE);
         System.out.println ("[DEBUG] Evaluating intro screen ....." );
         System.out.println ("[DEBUG] Intro screen welcome to prosper text: '" + message + "'" );
-        highlightByElement ( welcomeToProsper );
+        highlightByElement ( welcometoProsper );
         // Use the framework's logger for better reporting.
         ExtentLogger.info("Intro screen welcome to prosper text: '" + message + "'");
         Thread.sleep ( 5000 );
@@ -196,5 +225,39 @@ public class SignUpSuccessPage extends BasePage
         Thread.sleep ( 5000 );
         return message;
     }
+    public String getIntroScreenLeftGridDescription () throws InterruptedException {
+        waitForPageLoad ();
+        // The getText helper method from your BasePage will wait for the element
+        // to become visible before retrieving its text. This is the most efficient
+        // way to handle this, as it combines waiting and action in one step.
+        String message = getText( leftGridDescription, WaitStrategy.VISIBLE);
+        System.out.println ("[DEBUG] Evaluating intro screen ....." );
+        System.out.println ("[DEBUG] Intro screen Left Grid Description: '" + message + "'" );
+        highlightByElement ( leftGridDescription );
+        // Use the framework's logger for better reporting.
+        ExtentLogger.info("Intro screen Left Grid Description: '" + message + "'");
+        Thread.sleep ( 5000 );
+        return message;
+    }
+
+
+    /**
+     * Populates and returns a map containing all the text elements from the intro screen.
+     * @return A HashMap with the intro screen data.
+     * @throws InterruptedException if a thread is interrupted during a sleep.
+     */
+    public HashMap<String, String> getIntroScreenData() throws InterruptedException {
+        introScreenData.put("welcomeUser", getIntroScreenWelcomeMessage());
+        introScreenData.put("welcomeToProsper", getIntroScreenWelcomeToProsperText());
+        introScreenData.put("introScreenDescriptionFirst", getIntroScreenFirstDescription());
+        introScreenData.put("introScreenDescriptionSecond", getIntroScreenSecondDescription());
+        introScreenData.put("introScreenFeatureCardOne", getIntroScreenFeatureCardOne());
+        introScreenData.put("introScreenFeatureCardTwo", getIntroScreenFeatureCardTwo());
+        introScreenData.put("introScreenFeatureCardThree", getIntroScreenFeatureCardThree());
+        introScreenData.put("leftGridHeader", getIntroScreenLeftGridHeader());
+        introScreenData.put("leftGridDescription", getIntroScreenLeftGridDescription());
+        return introScreenData;
+    }
+
 
 }

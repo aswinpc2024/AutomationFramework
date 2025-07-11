@@ -31,8 +31,6 @@ class ConfigLoader
     /* Default config file is stg_config.properties */
     private static final String STG_CONFIG_PROPERTIES = "stg" + CONFIG_PROPERTIES;
     private static final String PROD_CONFIG_PROPERTIES = "prod" + CONFIG_PROPERTIES;
-    private static final String QA_CONFIG_PROPERTIES = "qa" + CONFIG_PROPERTIES;
-    private static final String INT_CONFIG_PROPERTIES = "int" + CONFIG_PROPERTIES;
 
     private static final String RESOURCES_PATH = System.getProperty("user.dir") + "/src/test/resources/config/";
     private Properties properties;

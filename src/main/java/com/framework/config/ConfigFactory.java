@@ -7,38 +7,63 @@
 package com.framework.config;
 
 import com.framework.constants.FrameworkConstants;
-
 import com.framework.enums.BrowserType;
-
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Properties;
 
-public
-class ConfigFactory {
-    private static final Properties PROPERTIES = new Properties();
-    private static final FrameworkConfig CONFIG = new FrameworkConfig();
+/**
+ * A factory class for reading and providing configuration properties for the framework.
+ * <p>
+ * This class loads configuration from a .properties file once and provides a
+ * singleton {@link FrameworkConfig} object. It uses a static initializer block
+ * to ensure the configuration is loaded only once when the class is first accessed.
+ */
+public final class ConfigFactory {
 
+    // Declare the final CONFIG field. It will be initialized once in the static block.
+    private static final FrameworkConfig CONFIG;
+
+    /**
+     * Static initializer block to load properties from the file and initialize the CONFIG object.
+     * This block is executed only once when the class is loaded into memory by the JVM.
+     */
     static {
-        try (FileInputStream fileInputStream = new FileInputStream( FrameworkConstants.getConfigFilePath())) {
-            PROPERTIES.load(fileInputStream);
-
-            CONFIG.setBrowserType( BrowserType.valueOf( PROPERTIES.getProperty( "browser").toUpperCase()));
-            CONFIG.setUrl(PROPERTIES.getProperty("url"));
-            CONFIG.setHeadless(Boolean.parseBoolean(PROPERTIES.getProperty("headless")));
-            CONFIG.setImplicitWait(Long.parseLong(PROPERTIES.getProperty("implicitWait")));
-            CONFIG.setExplicitWait(Long.parseLong(PROPERTIES.getProperty("explicitWait")));
-            CONFIG.setTakeScreenshotOnFailure(Boolean.parseBoolean(PROPERTIES.getProperty("screenshotOnFailure")));
+        // Use a local Properties object, as it's only needed during initialization.
+        Properties properties = new Properties();
+        try (FileInputStream fileInputStream = new FileInputStream(FrameworkConstants.getConfigFilePath())) {
+            properties.load(fileInputStream);
         } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
+            // Throw a custom runtime exception for better error handling and diagnostics.
+            throw new IllegalStateException("Failed to load the configuration properties file at: " + FrameworkConstants.getConfigFilePath(), e);
         }
+
+        // Initialize the final CONFIG object using the Builder pattern.
+        // This provides a clean, readable way to set properties and creates an immutable object.
+        // I've also added default values to make the framework more resilient.
+        CONFIG = new FrameworkConfig.Builder()
+                .browserType(BrowserType.valueOf(properties.getProperty("browser", "CHROME").toUpperCase()))
+                .url(Objects.requireNonNull(properties.getProperty("url"), "Property 'url' cannot be null in config file"))
+                .headless(Boolean.parseBoolean(properties.getProperty("headless", "false")))
+                .implicitWait(Long.parseLong(properties.getProperty("implicitWait", "10")))
+                .explicitWait(Long.parseLong(properties.getProperty("explicitWait", "10")))
+                .takeScreenshotOnFailure(Boolean.parseBoolean(properties.getProperty("screenshotOnFailure", "true")))
+                .build();
     }
 
+    /**
+     * Private constructor to prevent instantiation of this utility class.
+     */
     private ConfigFactory() {
-        // Private constructor to prevent instantiation
+        // This class should not be instantiated.
     }
 
+    /**
+     * Provides access to the singleton {@link FrameworkConfig} object.
+     *
+     * @return The populated {@link FrameworkConfig} instance containing all framework configurations.
+     */
     public static FrameworkConfig getConfig() {
         return CONFIG;
     }
