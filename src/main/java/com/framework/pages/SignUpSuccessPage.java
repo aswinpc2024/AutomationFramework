@@ -82,7 +82,7 @@ public class SignUpSuccessPage extends BasePage
      * @return A new instance of the ProfilePage, as skipping typically leads to the user's profile or dashboard.
      */
     public void clickSkipDocumentVerification() {
-        waitForPageLoad ();
+//        waitForPageLoad ();
         click(skipDocumentVerificationBtn, WaitStrategy.CLICKABLE, "Skip Document Verification Button");
     }
     /**

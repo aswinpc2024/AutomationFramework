@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JsonSchemaMappingsProjectConfiguration">
+    <state>
+      <map>
+        <entry key="Allure Framework 2.0 Categories Configuration">
+          <value>
+            <SchemaInfo>
+              <option name="name" value="Allure Framework 2.0 Categories Configuration" />
+              <option name="relativePathToSchema" value="jar://$APPLICATION_HOME_DIR$/plugins/aqua-plugin/lib/aqua-plugin.jar!/schemas/allure-2.0.json" />
+              <option name="applicationDefined" value="true" />
+              <option name="patterns">
+                <list>
+                  <Item>
+                    <option name="path" value="allure-report/data/test-cases/7ce1c5a9a528bac6.json" />
+                  </Item>
+                </list>
+              </option>
+            </SchemaInfo>
+          </value>
+        </entry>
+      </map>
+    </state>
+  </component>
+</project>

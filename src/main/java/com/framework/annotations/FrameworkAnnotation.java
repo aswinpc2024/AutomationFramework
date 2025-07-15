@@ -3,7 +3,6 @@
  * https://www.linkedin.com/in/aswin-p-c/
  * https://github.com/aswinpc143
  */
-/***************************************************/
 package com.framework.annotations;
 
 import com.framework.enums.AuthorType;
@@ -42,7 +41,7 @@ public @interface FrameworkAnnotation {
      *
      * @return An array of {@link AuthorType}.
      */
-    public AuthorType[] author();
+    AuthorType[] author ( );
 
     /**
      * Defines the category or categories the test method belongs to (e.g., SMOKE, REGRESSION).
@@ -50,5 +49,5 @@ public @interface FrameworkAnnotation {
      *
      * @return An array of {@link CategoryType}.
      */
-    public CategoryType[] category();
+    CategoryType[] category ( );
 }

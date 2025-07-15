@@ -17,6 +17,7 @@ public class OTPpage extends BasePage
     private final By otpFieldFour =By.xpath ( "//input[@aria-label='Please enter OTP character 4']" );
 
     private final By verifyBtn = By.xpath ( "//button[contains(.,'Verify')]" );
+    private final By rmNotCreatedMessage = By.xpath ( "" );
 
     /**
      * Enters the 4-digit OTP and submits the form to complete the Mobile number and Email verification process.
@@ -31,18 +32,35 @@ public class OTPpage extends BasePage
         if (otp == null || otp.length() != 4) {
             throw new IllegalArgumentException("OTP must be a 4-digit string.");
         }
+        if(otpType.equals ( "mobile" ))
+        {
+            // Split the OTP string into individual characters
+            String[] otpDigits = otp.split("");
+            System.out.println ( STR."OTP is : \{otpDigits[0]} \{otpDigits[1]} \{otpDigits[2]} \{otpDigits[3]}" );
+            // Send each digit to its corresponding input field
+            sendKeys( otpFieldOne, otpDigits[0], WaitStrategy.VISIBLE, "OTP Digit Field 1");
+            sendKeys(otpFieldTwo, otpDigits[1], WaitStrategy.VISIBLE, "OTP Digit Field 2");
+            sendKeys(otpFieldThree, otpDigits[2], WaitStrategy.VISIBLE, "OTP Digit Field 3");
+            sendKeys(otpFieldFour, otpDigits[3], WaitStrategy.VISIBLE, "OTP Digit Field 4");
+            click ( verifyBtn, WaitStrategy.CLICKABLE, "Verify Button" );
+            waitForPageLoad ();
+            System.out.println ("[DEBUG] OTP Verification for "+ otpType +" Completed" );
+        }
+        else {
+            // Split the OTP string into individual characters
+            String[] otpDigits = otp.split("");
+            System.out.println ( STR."OTP is : \{otpDigits[0]} \{otpDigits[1]} \{otpDigits[2]} \{otpDigits[3]}" );
+            // Send each digit to its corresponding input field
+            sendKeys( otpFieldOne, otpDigits[0], WaitStrategy.VISIBLE, "OTP Digit Field 1");
+            sendKeys(otpFieldTwo, otpDigits[1], WaitStrategy.VISIBLE, "OTP Digit Field 2");
+            sendKeys(otpFieldThree, otpDigits[2], WaitStrategy.VISIBLE, "OTP Digit Field 3");
+            sendKeys(otpFieldFour, otpDigits[3], WaitStrategy.VISIBLE, "OTP Digit Field 4");
+            click ( verifyBtn, WaitStrategy.CLICKABLE, "Verify Button" );
+            waitForPageLoad ();
 
-        // Split the OTP string into individual characters
-        String[] otpDigits = otp.split("");
-        System.out.println ( STR."OTP is : \{otpDigits[0]} \{otpDigits[1]} \{otpDigits[2]} \{otpDigits[3]}" );
-        // Send each digit to its corresponding input field
-        sendKeys( otpFieldOne, otpDigits[0], WaitStrategy.VISIBLE, "OTP Digit Field 1");
-        sendKeys(otpFieldTwo, otpDigits[1], WaitStrategy.VISIBLE, "OTP Digit Field 2");
-        sendKeys(otpFieldThree, otpDigits[2], WaitStrategy.VISIBLE, "OTP Digit Field 3");
-        sendKeys(otpFieldFour, otpDigits[3], WaitStrategy.VISIBLE, "OTP Digit Field 4");
-        click ( verifyBtn, WaitStrategy.CLICKABLE, "Verify Button" );
-        waitForPageLoad ();
-        System.out.println ("[DEBUG] OTP Verification for "+ otpType +" Completed" );
+        }
+
+
     }
 
 }

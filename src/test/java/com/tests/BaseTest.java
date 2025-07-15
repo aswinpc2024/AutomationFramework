@@ -17,6 +17,8 @@ import org.testng.ITestResult;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 
+import static com.framework.reports.ExtentReport.testNameFormatter;
+
 @Listeners(ListenerClass.class)
 public class BaseTest {
 
@@ -53,7 +55,8 @@ public class BaseTest {
         }
 
         // Retrieve test method name
-        String testName = result.getMethod().getMethodName();
+        String testName =testNameFormatter(result.getMethod().getMethodName());
+
         System.out.println("[DEBUG] Running test: " + testName);
 
         // Ensure ExtentReports is initialized before creating the test
