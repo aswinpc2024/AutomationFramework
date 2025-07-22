@@ -94,9 +94,7 @@ public class BaseTest {
                 System.out.println("[DEBUG] Taking screenshot on failure...");
                 ExtentLogger.logWithScreenshot("Test Failed", Status.FAIL);
             }
-
         }
-
         System.out.println("[DEBUG] Quitting WebDriver...");
         Driver.quitDriver();
     }

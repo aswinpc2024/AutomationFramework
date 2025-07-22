@@ -3,12 +3,12 @@ package com.framework.utils;
 import java.util.HashMap;
 
 public class MapPair<K, V> {
-    public HashMap<K, V> map1;
-    public HashMap<K, V> map2;
+    public HashMap<K, V> userStatus;
+    public HashMap<K, V> testResults;
 
-    public MapPair(HashMap<K, V> map1, HashMap<K, V> map2) {
-        this.map1 = map1;
-        this.map2 = map2;
+    public MapPair(HashMap<K, V> userStatus, HashMap<K, V> testResults) {
+        this.userStatus = userStatus;
+        this.testResults = testResults;
     }
 }
 

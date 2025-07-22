@@ -3,15 +3,11 @@ package com.tests;
 import com.framework.annotations.FrameworkAnnotation;
 import com.framework.enums.AuthorType;
 import com.framework.enums.CategoryType;
-import com.framework.pages.LoginPage;
 import com.framework.pages.SignUpPage;
-import com.framework.pages.SignUpSuccessPage;
 import com.framework.utils.MapPair;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import java.util.HashMap;
 
 public class SignUpPageTest extends BaseTest {
     /**
@@ -31,26 +27,26 @@ public class SignUpPageTest extends BaseTest {
 
         MapPair<String, String> signupResults = signUpPage.fillSignUpFormAndSubmitwithNewUser(fullName, mobileNumber, emailAddress, preferredLang);
 
-        if ("true".equals(signupResults.map1.get("userExist")) && "true".equals(signupResults.map1.get("mobileNumberExist")))
+        if ("true".equals(signupResults.userStatus.get("userExist")) && "true".equals(signupResults.userStatus.get("mobileNumberExist")))
         {
-            Assert.assertEquals( signupResults.map2.get("mobileExistError"),"The mobile is already registered with prosper");
+            Assert.assertEquals( signupResults.testResults.get( "mobileExistError"), "The mobile is already registered with prosper");
         }
-        else if ("true".equals(signupResults.map1.get("userExist")) && "true".equals(signupResults.map1.get("emailIdExist")))
+        else if ("true".equals(signupResults.userStatus.get("userExist")) && "true".equals(signupResults.userStatus.get("emailIdExist")))
         {
-            Assert.assertEquals( signupResults.map2.get("emailExistError"),"The email is already registered with prosper.");
+            Assert.assertEquals( signupResults.testResults.get( "emailExistError"), "The email is already registered with prosper.");
         }
         else
         {
             //4. Assertion: Verify Intro Screen Welcome Message and description.
-            Assert.assertEquals(signupResults.map2.get("welcomeUser"), STR."Hello, \{fullName}");
-            Assert.assertEquals(signupResults.map2.get("welcomeToProsper"), "Welcome to Prosper");
-            Assert.assertEquals(signupResults.map2.get("introScreenDescriptionFirst"), "With powerful data, smart insights and personalized service, Prosper makes your property journey smoother, smarter and more rewarding.");
-            Assert.assertEquals(signupResults.map2.get("introScreenDescriptionSecond"), "We help you stay ahead and make confident decisions.");
+            Assert.assertEquals( signupResults.testResults.get( "welcomeUser"), STR."Hello, \{fullName}");
+            Assert.assertEquals( signupResults.testResults.get( "welcomeToProsper"), "Welcome to Prosper");
+            Assert.assertEquals( signupResults.testResults.get( "introScreenDescriptionFirst"), "With powerful data, smart insights and personalized service, Prosper makes your property journey smoother, smarter and more rewarding.");
+            Assert.assertEquals( signupResults.testResults.get( "introScreenDescriptionSecond"), "We help you stay ahead and make confident decisions.");
 
             //5.Assertion: Verify Intro Screen Feature Cards
-            Assert.assertEquals(signupResults.map2.get("introScreenFeatureCardOne"), "Automated Dashboard");
-            Assert.assertEquals(signupResults.map2.get("introScreenFeatureCardTwo"), "Sell or Rent your property");
-            Assert.assertEquals(signupResults.map2.get("introScreenFeatureCardThree"), "Mortgages");
+            Assert.assertEquals( signupResults.testResults.get( "introScreenFeatureCardOne"), "Automated Dashboard");
+            Assert.assertEquals( signupResults.testResults.get( "introScreenFeatureCardTwo"), "Sell or Rent your property");
+            Assert.assertEquals( signupResults.testResults.get( "introScreenFeatureCardThree"), "Mortgages");
         }
     }
 
@@ -71,9 +67,9 @@ public class SignUpPageTest extends BaseTest {
         SignUpPage signUpPage =new SignUpPage ();
 
         MapPair<String, String> signupResults =signUpPage.fillSignUpFormAndSubmitwithNewUser ( fullName, mobileNumber, emailAddress, preferredLang );
-        if(signupResults.map1.get ( "userExist" ).contains ( "true" ))
+        if(signupResults.userStatus.get ( "userExist" ).contains ( "true" ))
         {
-         Assert.assertEquals ( "The mobile is already registered with prosper", signupResults.map2.get ( "mobileExistError" ) );
+         Assert.assertEquals ( "The mobile is already registered with prosper", signupResults.testResults.get ( "mobileExistError" ) );
         }
 
         //4. Assertion: Verify Intro Screen Welcome Message and description.

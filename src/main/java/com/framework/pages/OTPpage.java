@@ -26,10 +26,12 @@ public class OTPpage extends BasePage
      * @param otp The 4-digit OTP as a String (e.g., "1234").
      * @return A new instance of the DashboardPage, the expected destination after OTP verification.
      */
-    public void enterOtpAndVerify (String otpType, String otp) {
+    public void enterOtpAndVerify (String otpType, String otp)
+    {
         System.out.println ( STR."[DEBUG] Initiating OTP Verification for \{otpType}" );
         // Basic validation to ensure the OTP is in the expected format.
-        if (otp == null || otp.length() != 4) {
+        if (otp == null || otp.length() != 4)
+        {
             throw new IllegalArgumentException("OTP must be a 4-digit string.");
         }
         if(otpType.equals ( "mobile" ))
@@ -46,7 +48,8 @@ public class OTPpage extends BasePage
             waitForPageLoad ();
             System.out.println ("[DEBUG] OTP Verification for "+ otpType +" Completed" );
         }
-        else {
+        else
+        {
             // Split the OTP string into individual characters
             String[] otpDigits = otp.split("");
             System.out.println ( STR."OTP is : \{otpDigits[0]} \{otpDigits[1]} \{otpDigits[2]} \{otpDigits[3]}" );
@@ -57,10 +60,7 @@ public class OTPpage extends BasePage
             sendKeys(otpFieldFour, otpDigits[3], WaitStrategy.VISIBLE, "OTP Digit Field 4");
             click ( verifyBtn, WaitStrategy.CLICKABLE, "Verify Button" );
             waitForPageLoad ();
-
         }
-
-
     }
 
 }

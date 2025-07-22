@@ -17,7 +17,7 @@ public class SignUpPage extends BasePage {
     // 1. Navigation: Start from the login page and navigate to the sign-up page.
     // This returns the SignUpPage object, ensuring we are on the correct page.
     LoginPage loginPage = new LoginPage();
-    SignUpSuccessPage signUpSuccessPage = new SignUpSuccessPage ();
+    SignUpResult signUpResult = new SignUpResult ();
     OTPpage otpPage = new OTPpage ();
 
     HashMap<String,String> testResults = new HashMap<> ();
@@ -61,8 +61,9 @@ public class SignUpPage extends BasePage {
         //1. Navigation: Start from the login page and navigate to the sign-up page.
         loginPage.navigateToSignUpPage();
 
-        if (!isPageLoaded())
-        {
+        if (!isPageLoaded()) {
+            // Fail fast with a clear error message instead of returning null.
+            // This prevents potential NullPointerExceptions in the calling test code.
             throw new IllegalStateException("Sign Up page did not load correctly. Cannot proceed.");
         }
 
@@ -120,8 +121,8 @@ public class SignUpPage extends BasePage {
             otpPage.enterOtpAndVerify ( "email", "1234" );
             Thread.sleep ( 5000 );
             otpPage.enterOtpAndVerify ( "mobile", "1234" );
-            signUpSuccessPage.clickSkipDocumentVerification ();
-            testResults = signUpSuccessPage.getIntroScreenData ();
+            signUpResult.clickSkipDocumentVerification ();
+            testResults = signUpResult.getIntroScreenData ();
 
             return new MapPair<>(userStatus, testResults);
         }

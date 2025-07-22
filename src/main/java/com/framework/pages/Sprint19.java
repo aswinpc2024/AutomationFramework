@@ -51,7 +51,7 @@ public class Sprint19 extends BasePage {
 
     public Map<String, String> checkShareFeedbackFieldsTextAndPlaceholders () {
 
-        String email = "aswin@pixbitsolutions.com";
+        String email = "shubhanshu@gmail.com";
         String otp ="1234";
         HashMap<String,String> results = new HashMap<> ();
 
@@ -114,7 +114,7 @@ public class Sprint19 extends BasePage {
     }
 
     public String checkBredcrumbMenu() {
-        String email = "aswin@pixbitsolutions.com";
+        String email = "shubhanshu@gmail.com";
         String otp ="1234";
 
         homePage = loginPage.loginToApplicationWithOTP ( email,otp );
@@ -127,7 +127,7 @@ public class Sprint19 extends BasePage {
 
     public Map<String, String> createFeedback(String feedBackCategory, String feedbackTitle, String feedbackDescription) throws InterruptedException {
 
-        String email = "aswin@pixbitsolutions.com";
+        String email = "shubhanshu@gmail.com";
         String otp ="1234";
 
         final By feedbackCategories =By.xpath ( "//form/div/div[1]/div/ul/li[*]");
@@ -176,7 +176,7 @@ public class Sprint19 extends BasePage {
             // Request type
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
-            conn.setRequestProperty ( "Authorization","Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzQ0ODc5MjYwLCJleHAiOjE3NDc0NzEyNjB9.3ZWtNLyjiPOPZClJ_ENncwjFpNlkuyzm4rFJ99zzOdA" );
+            conn.setRequestProperty ( "Authorization","Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzUyNzQ1NDM2LCJleHAiOjE3NTUzMzc0MzZ9.ySm5Z42o2zBolB431OH29xfZKvyx8lV19Aiu_WyCNB0" );
 
             // Read response
             BufferedReader in = new BufferedReader( new InputStreamReader(conn.getInputStream()));
@@ -209,7 +209,7 @@ public class Sprint19 extends BasePage {
     }
 
     public List<String> blogs() throws InterruptedException {
-        String email = "aswin@pixbitsolutions.com";
+        String email = "shubhanshu@gmail.com";
         String otp ="1234";
         homePage = loginPage.loginToApplicationWithOTP ( email,otp );
         Thread.sleep ( 3000 );
@@ -319,7 +319,7 @@ public class Sprint19 extends BasePage {
                 HttpRequest request = HttpRequest.newBuilder ( )
                         .uri ( URI.create ( "http://blog.prosper.pixbit.in/content-manager/collection-types/api::blog.blog/actions/publish?" ) )
                         .header ( "Content-Type" , "application/json" )
-                        .headers ( "Authorization" , "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzQ0OTQ1NTQzLCJleHAiOjE3NDc1Mzc1NDN9.ExBFxmxQkA-w6yxPGiCJ9egOd5CyQR7lRTROau9p0_s" )
+                        .headers ( "Authorization" , "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzUyNzQ1NDM2LCJleHAiOjE3NTUzMzc0MzZ9.ySm5Z42o2zBolB431OH29xfZKvyx8lV19Aiu_WyCNB0" )
                         .POST ( HttpRequest.BodyPublishers.ofString ( jsonInput ) )
                         .build ( );
 

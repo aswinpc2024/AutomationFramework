@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.HashMap;
 
-public class SignUpSuccessPage extends BasePage
+public class SignUpResult extends BasePage
 {
     HashMap<String,String> introScreenData = new HashMap<> ();
     // --- Signup Success Page Locators ---
@@ -34,7 +34,7 @@ public class SignUpSuccessPage extends BasePage
     private final By skipAndTakeProfileTourBtn  =By.xpath ( "//span[starts-with(text(),'Skip')]" );
 
     public
-    SignUpSuccessPage ( ) throws InterruptedException {
+    SignUpResult ( ) throws InterruptedException {
     }
 
     // --- Page Methods ---
@@ -210,7 +210,6 @@ public class SignUpSuccessPage extends BasePage
         Thread.sleep ( 5000 );
         return message;
     }
-
     public String getIntroScreenLeftGridHeader () throws InterruptedException {
         waitForPageLoad ();
         // The getText helper method from your BasePage will wait for the element
@@ -258,6 +257,4 @@ public class SignUpSuccessPage extends BasePage
         introScreenData.put("leftGridDescription", getIntroScreenLeftGridDescription());
         return introScreenData;
     }
-
-
 }

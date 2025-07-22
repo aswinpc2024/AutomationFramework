@@ -15,8 +15,8 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
 
-public
-class EmailAttachmentsSender {
+public class EmailAttachmentsSender
+{
     /**
      * i) Send n no. of Attachments
      *
@@ -25,8 +25,18 @@ class EmailAttachmentsSender {
      * iii) Send mail to n no. of Users
      *
      */
-    public static void sendEmailWithAttachments(String host, String port, final String userName, final String password,
-                                                String[] toAddress, String subject, String message, String... attachFiles) throws MessagingException {
+    public static void sendEmailWithAttachments
+    (
+            String host,
+            String port,
+            final String userName,
+            final String password,
+            String[] toAddress,
+            String subject,
+            String message,
+            String... attachFiles
+    ) throws MessagingException
+    {
         // sets SMTP server properties
         Properties properties = new Properties();
         properties.put("mail.smtp.host", host);
@@ -37,9 +47,10 @@ class EmailAttachmentsSender {
         properties.put("mail.password", password);
 
         // creates a new session with an authenticator
-        Authenticator auth = new Authenticator() {
-            public
-            PasswordAuthentication getPasswordAuthentication() {
+        Authenticator auth = new Authenticator()
+        {
+            public PasswordAuthentication getPasswordAuthentication()
+            {
                 return new PasswordAuthentication(userName, password);
             }
         };
@@ -58,7 +69,8 @@ class EmailAttachmentsSender {
         /*
          * InternetAddress[] toAddresses = { new InternetAddress(toAddress) };
          * msg.setRecipients(Message.RecipientType.TO, toAddresses);
-         */ msg.setSubject(subject);
+         */
+        msg.setSubject(subject);
         msg.setSentDate(new Date ());
 
         // creates message part
@@ -83,12 +95,9 @@ class EmailAttachmentsSender {
                 multipart.addBodyPart(attachPart);
             }
         }
-
         // sets the multi-part as e-mail's content
         msg.setContent(multipart);
-
         // sends the e-mail
         Transport.send(msg);
-
     }
 }

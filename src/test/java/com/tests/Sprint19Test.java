@@ -14,8 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public
-class Sprint19Test extends BaseTest
+public class Sprint19Test extends BaseTest
 {
     @Test (description = "Verify share feedback from user")
     @FrameworkAnnotation (author = { AuthorType.ASWIN_CHANDRAN_PC}, category = { CategoryType.SANITY })

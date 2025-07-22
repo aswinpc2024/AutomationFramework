@@ -73,11 +73,9 @@ public class LoginPage extends BasePage
      */
     public SignUpPage navigateToSignUpPage() throws InterruptedException {
         // Step 1: Click the main login button to open the login form.
-        click(btnLogin, WaitStrategy.CLICKABLE, "Login button");
-
+        clickLogin();
         // Step 2: Click the Sign Up link within the form.
-        click(btnSignUp, WaitStrategy.CLICKABLE, "Sign Up button");
-
+        clickSignUp();
         return new SignUpPage();
     }
 }
