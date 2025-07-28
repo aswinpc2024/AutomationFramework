@@ -117,17 +117,17 @@ class ExtentReport {
         return extent;
     }
 
-    public static String testNameFormatter(String testNAme)
+    public static String testNameFormatter(String testName)
     {
 //        String input = "testSuccessfulSignUpwithSkipDocumentVerificationAndVerifyIntroScreen";
 
         // Remove the "test" prefix if present
-        if (testNAme.startsWith("test")) {
-            testNAme = testNAme.substring(4);
+        if (testName.startsWith("test")) {
+            testName = testName.substring(4);
         }
 
         // Insert a space before each uppercase letter (except at the beginning)
-        String result = testNAme.replaceAll("([a-z])([A-Z])", "$1 $2");
+        String result = testName.replaceAll("([a-z])([A-Z])", "$1 $2");
 
         // Capitalize the first letter (optional, depending on your requirement)
         result = result.substring(0, 1).toUpperCase() + result.substring(1);

@@ -30,12 +30,16 @@ public class SignUpPage extends BasePage {
     private final By agreeChkBox = By.xpath ( "//span[@class='geekmark']" );
     private final By continueBtn =By.xpath ( "//button[contains(text(),'Continue')]" );
 
-    private final By mobileNumberAlreadyExistError = By.xpath ( "//span[contains(text(),'The mobile is already registered with prosper')]" );
-    private final By emailIdAlreadyExistError = By.xpath ( "//span[contains(text(),'The email is already registered with prosper.')]" );
+    private final By mobileNumberAlreadyExistError = By.xpath ( "//span[contains(normalize-space(),'The mobile is already registered with prosper')]" );
+    private final By emailIdAlreadyExistError = By.xpath ( "//span[contains(normalize-space(),'The email is already registered with prosper')]" );
     private final By closeSignUpPopup = By.xpath ( "/html/body/div[2]/div/div/div/div[2]/div/div/div/div/div[1]" );
+    private final By areYouUaeResidentPopupHeading = By.xpath ( "(//p[1])[normalize-space()='Are you a UAE resident ?']" );
+    private final By yesUaeResident = By.xpath ( "//button[normalize-space()='Yes, I am a UAE Resident']" );
+    private final By notUaeResident = By.xpath ( "//button[normalize-space()='No , I am not a UAE Resident']" );
 
-    public SignUpPage ( ) throws InterruptedException {
+    public SignUpPage ( ) {
     }
+
     // --- Page Methods ---
     /**
      * Checks if a key element (the name field) is visible to confirm the page has loaded.
@@ -56,7 +60,7 @@ public class SignUpPage extends BasePage {
      * @param preferredLang The preferred language for the user.
      * @return A new instance of the DashboardPage, the expected destination after signing up.
      */
-    public MapPair<String, String> fillSignUpFormAndSubmitwithNewUser(String fullName, String mobileNumber, String emailAddress, String preferredLang) throws InterruptedException {
+    public MapPair<String, String> fillSignUpFormAndSubmitWithNewUser (String fullName, String mobileNumber, String emailAddress, String preferredLang, String isDocVerifyRequired,String isUaeResident) throws InterruptedException {
 
         //1. Navigation: Start from the login page and navigate to the sign-up page.
         loginPage.navigateToSignUpPage();
@@ -66,8 +70,7 @@ public class SignUpPage extends BasePage {
             // This prevents potential NullPointerExceptions in the calling test code.
             throw new IllegalStateException("Sign Up page did not load correctly. Cannot proceed.");
         }
-
-        return fillUserDetails(fullName, mobileNumber, emailAddress, preferredLang);
+        return fillUserDetails(fullName, mobileNumber, emailAddress, preferredLang,isDocVerifyRequired ,isUaeResident );
     }
 
     /**
@@ -82,8 +85,7 @@ public class SignUpPage extends BasePage {
         click(languageOption, WaitStrategy.CLICKABLE, "Language option: " + language);
     }
 
-    private MapPair<String, String> fillUserDetails(String fullName, String mobileNumber, String emailAddress, String preferredLang) throws InterruptedException {
-
+    private MapPair<String, String> fillUserDetails(String fullName, String mobileNumber, String emailAddress, String preferredLang,String isDocVerifyRequired,String isUaeResident) throws InterruptedException {
         sendKeys ( nameField , fullName , WaitStrategy.VISIBLE , "Full Name field" );
         sendKeys ( phoneField , mobileNumber , WaitStrategy.NONE , "Phone Number field" );
         sendKeys ( emailField , emailAddress , WaitStrategy.NONE , "Email field" );
@@ -97,6 +99,8 @@ public class SignUpPage extends BasePage {
             System.out.println ("I'm in IF" );
             userStatus.put ( "userExist", "true" );
             userStatus.put ( "mobileNumberExist","true" );
+            highlightByElement ( mobileNumberAlreadyExistError );
+            System.out.println (DriverManager.getDriver ().findElement ( mobileNumberAlreadyExistError ).getText () );
             testResults.put ( "mobileExistError", DriverManager.getDriver ( ).findElement ( mobileNumberAlreadyExistError ).getText ( ) );
             System.out.println ( STR."[DEBUG] \{DriverManager.getDriver ( ).findElement ( mobileNumberAlreadyExistError ).getText ( )}, So Initiating Login with given mobile number" );
             closeSignUpPopupAndSigninWithOtp(mobileNumber);
@@ -107,6 +111,8 @@ public class SignUpPage extends BasePage {
             System.out.println ("I'm in ELSE IF" );
             userStatus.put ( "userExist", "true" );
             userStatus.put ( "emailIdExist","true" );
+            highlightByElement ( emailIdAlreadyExistError );
+            System.out.println (DriverManager.getDriver ().findElement ( emailIdAlreadyExistError ).getText () );
             testResults.put ( "emailExistError", DriverManager.getDriver ( ).findElement ( emailIdAlreadyExistError ).getText ( ) );
             System.out.println ( STR."[DEBUG] \{DriverManager.getDriver ( ).findElement ( emailIdAlreadyExistError ).getText ( )}, So Initiating Login with given Email address" );
             closeSignUpPopupAndSigninWithOtp(emailAddress);
@@ -117,15 +123,37 @@ public class SignUpPage extends BasePage {
             System.out.println ("I'm in ELSE" );
             userStatus.put ( "userExist", "false" );
             userStatus.put ( "mobileNumberExist","false" );
-            userStatus.put ( "emailIdExist","false" );
+            userStatus.put ( "emailIdExist","true" );
+            System.out.println (DriverManager.getDriver ().findElement ( emailIdAlreadyExistError ).getText () );
             otpPage.enterOtpAndVerify ( "email", "1234" );
             Thread.sleep ( 5000 );
             otpPage.enterOtpAndVerify ( "mobile", "1234" );
-            signUpResult.clickSkipDocumentVerification ();
-            testResults = signUpResult.getIntroScreenData ();
-
-            return new MapPair<>(userStatus, testResults);
         }
+
+        if(isDocVerifyRequired.equals ( "true" ))
+        {
+            signUpResult.clickVerifyNow();
+            waitForPageLoad ();
+            if(isElementDisplayed ( areYouUaeResidentPopupHeading ))
+            {
+                if(isUaeResident.equals ( "true" ))
+                {
+                    click ( yesUaeResident,WaitStrategy.CLICKABLE,"Yes,I'm UAE Resident" );
+                }
+                else {
+                    click ( notUaeResident,WaitStrategy.CLICKABLE,"No, I'm not a UAE Resident" );
+                }
+            }
+            userStatus.put ( "proceedDocumentVerification","true" );
+        }
+        else
+        {
+            signUpResult.clickSkipDocumentVerification ();
+            waitForPageLoad ();
+            userStatus.put ( "proceedDocumentVerification","false" );
+            testResults = signUpResult.getIntroScreenData ();
+        }
+        return new MapPair<>( userStatus, testResults);
     }
 
     public void closeSignUpPopupAndSigninWithOtp(String otpType) throws InterruptedException {
@@ -133,4 +161,5 @@ public class SignUpPage extends BasePage {
         Thread.sleep ( 5000 );
         new LoginPage ().loginToApplicationWithOTP ( otpType,"1234" );
     }
+
 }

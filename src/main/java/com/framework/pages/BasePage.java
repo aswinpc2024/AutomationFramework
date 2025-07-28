@@ -6,6 +6,7 @@
 /***************************************************/
 package com.framework.pages;
 
+import com.aventstack.extentreports.Status;
 import com.framework.driver.DriverManager;
 import com.framework.enums.WaitStrategy;
 import com.framework.reports.ExtentLogger;
@@ -26,6 +27,7 @@ public class BasePage {
 
     protected void click(By by, WaitStrategy waitStrategy, String elementName) {
         WebElement element = WaitUtils.performExplicitWait(by, waitStrategy);
+        highlightXpathElement ( element );
         element.click();
         System.out.println ("[DEBUG] "+elementName + " is clicked");
         ExtentLogger.pass(elementName + " is clicked");
@@ -33,6 +35,7 @@ public class BasePage {
 
     protected void sendKeys(By by, String text, WaitStrategy waitStrategy, String elementName) {
         WebElement element = WaitUtils.performExplicitWait(by, waitStrategy);
+        highlightXpathElement ( element );
         element.clear();
         element.sendKeys(text);
         System.out.println ("[DEBUG] "+text + " is entered in " + elementName);
@@ -47,6 +50,7 @@ public class BasePage {
     }
 
     protected boolean isElementDisplayed(By by) {
+        waitForPageLoad ();
         try {
             return DriverManager.getDriver().findElement(by).isDisplayed();
         } catch (Exception e) {
@@ -79,18 +83,16 @@ public class BasePage {
         js.executeScript("return document.readyState").equals("complete");
     }
 
-    protected void highlightByElement (By by)
-    {
+    protected void highlightByElement (By by) {
         WebDriver driver =DriverManager.getDriver ();
         WebElement element = driver.findElement( by );
-        ( (JavascriptExecutor) driver ).executeScript ( "arguments[0].style.border='3px solid red'" , element );
+        ( (JavascriptExecutor) driver ).executeScript ( "arguments[0].style.border='3px solid green'" , element );
     }
 
-    protected void highlightXpathElement (WebElement by)
-    {
+    protected void highlightXpathElement (WebElement by) {
         WebDriver driver =DriverManager.getDriver ();
 
-        ( (JavascriptExecutor) driver ).executeScript ( "arguments[0].style.border='3px solid red'" , by );
+        ( (JavascriptExecutor) driver ).executeScript ( "arguments[0].style.border='3px solid green'" , by );
     }
 
     protected String selectFeedbackCategory(By feedbackCategories, String feedBackCategory) {
@@ -106,8 +108,4 @@ public class BasePage {
         }
         return matchedCategory;
     }
-
-
-
-
 }

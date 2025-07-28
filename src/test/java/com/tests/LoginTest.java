@@ -36,7 +36,7 @@ public class LoginTest extends BaseTest
     @FrameworkAnnotation (author = {  AuthorType.VISHNUDAS_K}, category = { CategoryType.REGRESSION })
     public void testSuccessfulLoginWithMobileNumberAndOTP()
     {
-        String mobileNumber = "8892898820";
+        String mobileNumber = "550635557";
         String otp ="1234";
         LoginPage loginPage = new LoginPage();
         loginPage.loginToApplicationWithOTP ( mobileNumber, otp);

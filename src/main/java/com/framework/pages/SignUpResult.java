@@ -15,6 +15,8 @@ public class SignUpResult extends BasePage
     private final By accountCreateSuccessHeader = By.xpath ( "//div/p[contains(.,'Account Created')]" );
     private final By accountCreateSuccessDescription = By.xpath ( "//div/span[contains(.,'Thank you for signing up! Verify your documents to publish your properties with us.')]" );
     private final By skipDocumentVerificationBtn = By.xpath ( "//button[contains(.,'Skip, I will do it later')]" );
+    private final By verifyNowBtn = By.xpath ( "//button[contains(.,'Verify now')]" );
+
 
     // --- Intro Screen Locators ---
     private final By introScreen = By.xpath ( "/html/body/div[4]/div[2]" );
@@ -34,7 +36,7 @@ public class SignUpResult extends BasePage
     private final By skipAndTakeProfileTourBtn  =By.xpath ( "//span[starts-with(text(),'Skip')]" );
 
     public
-    SignUpResult ( ) throws InterruptedException {
+    SignUpResult ( ) {
     }
 
     // --- Page Methods ---
@@ -85,6 +87,11 @@ public class SignUpResult extends BasePage
 //        waitForPageLoad ();
         click(skipDocumentVerificationBtn, WaitStrategy.CLICKABLE, "Skip Document Verification Button");
     }
+
+    public void clickVerifyNow(){
+        click ( verifyNowBtn, WaitStrategy.CLICKABLE, "Verify Now Button" );
+    }
+
     /**
      * Clicks the "Next" button to move the next page of info Screen.
      *

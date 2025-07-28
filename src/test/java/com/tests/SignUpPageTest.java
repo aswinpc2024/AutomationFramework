@@ -25,7 +25,7 @@ public class SignUpPageTest extends BaseTest {
 
         SignUpPage signUpPage = new SignUpPage();
 
-        MapPair<String, String> signupResults = signUpPage.fillSignUpFormAndSubmitwithNewUser(fullName, mobileNumber, emailAddress, preferredLang);
+        MapPair<String, String> signupResults = signUpPage.fillSignUpFormAndSubmitWithNewUser ( fullName, mobileNumber, emailAddress, preferredLang, "false","false");
 
         if ("true".equals(signupResults.userStatus.get("userExist")) && "true".equals(signupResults.userStatus.get("mobileNumberExist")))
         {
@@ -66,7 +66,7 @@ public class SignUpPageTest extends BaseTest {
          // Assuming LoginPage has this navigation method
         SignUpPage signUpPage =new SignUpPage ();
 
-        MapPair<String, String> signupResults =signUpPage.fillSignUpFormAndSubmitwithNewUser ( fullName, mobileNumber, emailAddress, preferredLang );
+        MapPair<String, String> signupResults =signUpPage.fillSignUpFormAndSubmitWithNewUser ( fullName, mobileNumber, emailAddress, preferredLang, "false","false" );
         if(signupResults.userStatus.get ( "userExist" ).contains ( "true" ))
         {
          Assert.assertEquals ( "The mobile is already registered with prosper", signupResults.testResults.get ( "mobileExistError" ) );

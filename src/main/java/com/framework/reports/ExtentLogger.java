@@ -40,6 +40,6 @@ public class ExtentLogger
     public static void logWithScreenshot(String message, Status status) {
         String screenshotPath = ScreenshotUtils.captureScreenshot( ExtentManager.getExtentTest().getModel().getName());
         ExtentManager.getExtentTest().log( status, message,
-                                           MediaEntityBuilder.createScreenCaptureFromPath( screenshotPath).build());
+                                           MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
     }
 }

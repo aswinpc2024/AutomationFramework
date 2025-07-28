@@ -19,13 +19,13 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public
-class ScreenshotUtils {
+public class ScreenshotUtils {
     private ScreenshotUtils() {
         // Private constructor to prevent instantiation
     }
 
-    public static String captureScreenshot(String testName) {
+    public static String captureScreenshot(String testName)
+    {
         String sanitizedTestName = testName.replaceAll("[<>:\"/\\\\|?*]", "_");
         File source = ((TakesScreenshot) DriverManager.getDriver()).getScreenshotAs( OutputType.FILE);
         String timestamp = new SimpleDateFormat ( "yyyyMMdd_HHmmss").format( new Date ());

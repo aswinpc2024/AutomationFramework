@@ -6,7 +6,9 @@
 /***************************************************/
 package com.framework.pages;
 
+import com.aventstack.extentreports.Status;
 import com.framework.enums.WaitStrategy;
+import com.framework.reports.ExtentLogger;
 import org.openqa.selenium.By;
 
 
@@ -32,11 +34,15 @@ public class LoginPage extends BasePage
     // before the login is complete. While it works for your current tests,
     // a 'void' or 'LoginPage' return type would be more standard.
     public HomePage clickLogin() {
+        highlightByElement ( btnLogin);
+        ExtentLogger.logWithScreenshot( "Login button", Status.PASS);
         click(btnLogin, WaitStrategy.CLICKABLE, "Login button");
         return new HomePage ();
     }
 
     public void clickSignUp(){
+        highlightByElement ( btnSignUp);
+        ExtentLogger.logWithScreenshot( "Sign Up button", Status.PASS);
         click(btnSignUp, WaitStrategy.CLICKABLE, "Sign Up button");
     }
 
@@ -57,6 +63,7 @@ public class LoginPage extends BasePage
     public HomePage loginToApplicationWithPassword (String loginBy, String password)
     {
         clickLogin();
+
         enterEmail(loginBy);
         click ( btnGetPassword, WaitStrategy.CLICKABLE, "Login With Password Button " );
         sendKeys ( txtPassword,password, WaitStrategy.VISIBLE, "Password field " );

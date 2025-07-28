@@ -26,7 +26,7 @@ public class BaseTest {
     public void beforeSuite()
     {
         System.out.println("[DEBUG] Initializing Extent Reports...");
-        ExtentReport.initReports();  // Initialize ExtentReports
+//        ExtentReport.initReports();  // Initialize ExtentReports
         if (ExtentReport.getExtentReports() == null) {
             throw new RuntimeException("[ERROR] ExtentReports instance is null after initReports().");
         }
@@ -37,7 +37,7 @@ public class BaseTest {
     public void afterSuite()
     {
         System.out.println("[DEBUG] Flushing Extent Reports...");
-        ExtentReport.flushReports();  // Flush reports after execution
+//        ExtentReport.flushReports();  // Flush reports after execution
     }
 
     @BeforeMethod
@@ -66,8 +66,8 @@ public class BaseTest {
 
         // Set up ExtentTest for the test method
         System.out.println("[DEBUG] Creating ExtentTest for: " + testName);
-        ExtentTest test = ExtentReport.getExtentReports().createTest(testName);
-        ExtentManager.setExtentTest(test);
+//        ExtentTest test = ExtentReport.getExtentReports().createTest(testName);
+//        ExtentManager.setExtentTest(test);
 
         // Navigate to application URL
         System.out.println("[DEBUG] Navigating to URL: " + ConfigFactory.getConfig().getUrl());
@@ -81,18 +81,18 @@ public class BaseTest {
         if (result.getStatus() == ITestResult.SUCCESS)
         {
             System.out.println("[DEBUG] Test Passed: Logging Pass...");
-            ExtentLogger.pass (result.getTestName ());
+//            ExtentLogger.pass (result.getTestName ());
             {
                 System.out.println("[DEBUG] Taking screenshot on Success...");
-                ExtentLogger.logWithScreenshot("Test Success", Status.PASS);
+//                ExtentLogger.logWithScreenshot("Test Success", Status.PASS);
             }
         }
         else if ( result.getStatus() == ITestResult.FAILURE ) {
             System.out.println("[DEBUG] Test failed: Logging failure...");
-            ExtentLogger.fail(result.getThrowable().getMessage());
+//            ExtentLogger.fail(result.getThrowable().getMessage());
             {
                 System.out.println("[DEBUG] Taking screenshot on failure...");
-                ExtentLogger.logWithScreenshot("Test Failed", Status.FAIL);
+//                ExtentLogger.logWithScreenshot("Test Failed", Status.FAIL);
             }
         }
         System.out.println("[DEBUG] Quitting WebDriver...");

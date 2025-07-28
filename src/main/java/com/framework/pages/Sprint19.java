@@ -176,7 +176,7 @@ public class Sprint19 extends BasePage {
             // Request type
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
-            conn.setRequestProperty ( "Authorization","Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzUyNzQ1NDM2LCJleHAiOjE3NTUzMzc0MzZ9.ySm5Z42o2zBolB431OH29xfZKvyx8lV19Aiu_WyCNB0" );
+            conn.setRequestProperty ("Authorization","Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzUyNzQ1NDM2LCJleHAiOjE3NTUzMzc0MzZ9.ySm5Z42o2zBolB431OH29xfZKvyx8lV19Aiu_WyCNB0" );
 
             // Read response
             BufferedReader in = new BufferedReader( new InputStreamReader(conn.getInputStream()));

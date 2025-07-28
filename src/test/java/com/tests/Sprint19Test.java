@@ -35,7 +35,7 @@ public class Sprint19Test extends BaseTest
         String descriptionPlaceholder = results.get ("descriptionPlaceholder");
 
         String addScreenshotsLabel = results.get ("labelAddScreenshots");
-        String addscreenshotsPlaceholder = results.get ("placeholderAddScreenshot");
+        String addScreenshotsPlaceholder = results.get ("placeholderAddScreenshot");
 
         //Assertion
         Assert.assertEquals ( heading,"Let us know your feedbacks" );
@@ -51,7 +51,7 @@ public class Sprint19Test extends BaseTest
         Assert.assertEquals ( descriptionPlaceholder,"Type your feedback..." );
 
         Assert.assertEquals ( addScreenshotsLabel,"Add screenshots (Optional)" );
-        Assert.assertEquals ( addscreenshotsPlaceholder,"upload image" );
+        Assert.assertEquals ( addScreenshotsPlaceholder,"upload image" );
     }
 
     @Test (description = "Verify the navigation bredcrumb is shown correctly")

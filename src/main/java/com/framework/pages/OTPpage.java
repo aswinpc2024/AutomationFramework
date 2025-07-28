@@ -60,7 +60,7 @@ public class OTPpage extends BasePage
             sendKeys(otpFieldFour, otpDigits[3], WaitStrategy.VISIBLE, "OTP Digit Field 4");
             click ( verifyBtn, WaitStrategy.CLICKABLE, "Verify Button" );
             waitForPageLoad ();
+            System.out.println ("[DEBUG] OTP Verification for "+ otpType +" Completed" );
         }
     }
-
 }
