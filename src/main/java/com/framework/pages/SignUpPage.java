@@ -30,12 +30,14 @@ public class SignUpPage extends BasePage {
     private final By agreeChkBox = By.xpath ( "//span[@class='geekmark']" );
     private final By continueBtn =By.xpath ( "//button[contains(text(),'Continue')]" );
 
-    private final By mobileNumberAlreadyExistError = By.xpath ( "//span[contains(normalize-space(),'The mobile is already registered with prosper')]" );
-    private final By emailIdAlreadyExistError = By.xpath ( "//span[contains(normalize-space(),'The email is already registered with prosper')]" );
+    private final By mobileNumberAlreadyExistError = By.xpath ( "//span[contains(.,'The mobile is already registered with prosper')]" );
+    private final By emailIdAlreadyExistError = By.xpath ( "//span[contains(.,'The email is already registered with prosper.')]");
+
     private final By closeSignUpPopup = By.xpath ( "/html/body/div[2]/div/div/div/div[2]/div/div/div/div/div[1]" );
     private final By areYouUaeResidentPopupHeading = By.xpath ( "(//p[1])[normalize-space()='Are you a UAE resident ?']" );
     private final By yesUaeResident = By.xpath ( "//button[normalize-space()='Yes, I am a UAE Resident']" );
     private final By notUaeResident = By.xpath ( "//button[normalize-space()='No , I am not a UAE Resident']" );
+    private final By passportUploadField = By.xpath ( "//input[@id='image_front_side']" );
 
     public SignUpPage ( ) {
     }
@@ -91,9 +93,10 @@ public class SignUpPage extends BasePage {
         sendKeys ( emailField , emailAddress , WaitStrategy.NONE , "Email field" );
         selectLanguage ( preferredLang );
         click ( agreeChkBox , WaitStrategy.CLICKABLE , "Terms and Conditions Checkbox" );
-        click ( continueBtn , WaitStrategy.CLICKABLE , "Continue Button" );
-        waitForPageLoad ();
-        System.out.println ("I'm after Wait" );
+        click(continueBtn, WaitStrategy.CLICKABLE, "Continue Button");
+        waitForPageLoad();
+        System.out.println("I'm after Wait");
+
         if(isElementDisplayed ( mobileNumberAlreadyExistError ))
         {
             System.out.println ("I'm in IF" );
@@ -116,6 +119,32 @@ public class SignUpPage extends BasePage {
             testResults.put ( "emailExistError", DriverManager.getDriver ( ).findElement ( emailIdAlreadyExistError ).getText ( ) );
             System.out.println ( STR."[DEBUG] \{DriverManager.getDriver ( ).findElement ( emailIdAlreadyExistError ).getText ( )}, So Initiating Login with given Email address" );
             closeSignUpPopupAndSigninWithOtp(emailAddress);
+            waitForPageLoad ();
+            if(isDocVerifyRequired.equals ( "true" ))
+            {  System.out.println ("I'm here if doc.verification required" );
+                signUpResult.clickVerifyNow();
+                waitForPageLoad ();
+                if(isElementDisplayed ( areYouUaeResidentPopupHeading ))
+                {
+                    System.out.println ("I'm here if residential status choosing popup selection popup displayed" );
+                    if(isUaeResident.equals ( "true" ))
+                    {
+                        System.out.println ("I'm here if UAE Resident" );
+                        click ( yesUaeResident,WaitStrategy.CLICKABLE,"Yes,I'm UAE Resident" );
+                        waitForPageLoad ();
+                        DriverManager.getDriver ().findElement ( passportUploadField ).sendKeys ( "D:\\share\\Docs-for-testing\\Passports\\jamesbond.jpg" );
+                    }
+                    else
+                    {
+                        System.out.println ("I'm here if Not UAE Resident" );
+                        click ( notUaeResident,WaitStrategy.CLICKABLE,"No, I'm not a UAE Resident" );
+                        waitForPageLoad ();
+                        DriverManager.getDriver ().findElement ( passportUploadField ).sendKeys ( "D:\\share\\Docs-for-testing\\Passports\\jamesbond.jpg" );
+                    }
+                }
+                System.out.println ("I'm here if residential status choosing popup selection popup not displayed");
+                userStatus.put ( "proceedDocumentVerification","true" );
+            }
             return new MapPair<>(userStatus, testResults);
         }
         else
@@ -123,31 +152,37 @@ public class SignUpPage extends BasePage {
             System.out.println ("I'm in ELSE" );
             userStatus.put ( "userExist", "false" );
             userStatus.put ( "mobileNumberExist","false" );
-            userStatus.put ( "emailIdExist","true" );
-            System.out.println (DriverManager.getDriver ().findElement ( emailIdAlreadyExistError ).getText () );
+            userStatus.put ( "emailIdExist","false" );
             otpPage.enterOtpAndVerify ( "email", "1234" );
             Thread.sleep ( 5000 );
             otpPage.enterOtpAndVerify ( "mobile", "1234" );
-        }
-
-        if(isDocVerifyRequired.equals ( "true" ))
-        {
-            signUpResult.clickVerifyNow();
             waitForPageLoad ();
-            if(isElementDisplayed ( areYouUaeResidentPopupHeading ))
-            {
-                if(isUaeResident.equals ( "true" ))
+            if(isDocVerifyRequired.equals ( "true" ))
+            {  System.out.println ("I'm here if doc.verification required" );
+                signUpResult.clickVerifyNow();
+                waitForPageLoad ();
+                if(isElementDisplayed ( areYouUaeResidentPopupHeading ))
                 {
-                    click ( yesUaeResident,WaitStrategy.CLICKABLE,"Yes,I'm UAE Resident" );
+                    System.out.println ("I'm here if residential status choosing popup selection popup displayed" );
+                    if(isUaeResident.equals ( "true" ))
+                    {
+                        System.out.println ("I'm here if UAE Resident" );
+                        click ( yesUaeResident,WaitStrategy.CLICKABLE,"Yes,I'm UAE Resident" );
+                        waitForPageLoad ();
+                        DriverManager.getDriver ().findElement ( passportUploadField ).sendKeys ( "D:\\share\\Docs-for-testing\\Passports\\jamesbond.jpg" );
+                    }
+                    else
+                    {
+                        System.out.println ("I'm here if Not UAE Resident" );
+                        click ( notUaeResident,WaitStrategy.CLICKABLE,"No, I'm not a UAE Resident" );
+                        waitForPageLoad ();
+                        DriverManager.getDriver ().findElement ( passportUploadField ).sendKeys ( "D:\\share\\Docs-for-testing\\Passports\\jamesbond.jpg" );
+                    }
                 }
-                else {
-                    click ( notUaeResident,WaitStrategy.CLICKABLE,"No, I'm not a UAE Resident" );
-                }
+                System.out.println ("I'm here if residential status choosing popup selection popup not displayed");
+                userStatus.put ( "proceedDocumentVerification","true" );
             }
-            userStatus.put ( "proceedDocumentVerification","true" );
-        }
-        else
-        {
+            System.out.println ("I'm here if new to skip document upload");
             signUpResult.clickSkipDocumentVerification ();
             waitForPageLoad ();
             userStatus.put ( "proceedDocumentVerification","false" );
