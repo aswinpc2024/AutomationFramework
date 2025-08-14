@@ -8,7 +8,7 @@ import org.openqa.selenium.By;
 import java.util.HashMap;
 
 /**
- * Represents the Sign Up page of the application.
+ * Represents the Sign-Up page of the application.
  * This class follows the Page Object Model pattern, providing an API
  * to interact with the sign-up form.
  */
@@ -30,16 +30,18 @@ public class SignUpPage extends BasePage {
     private final By agreeChkBox = By.xpath ( "//span[@class='geekmark']" );
     private final By continueBtn =By.xpath ( "//button[contains(text(),'Continue')]" );
 
-    private final By mobileNumberAlreadyExistError = By.xpath ( "//span[contains(.,'The mobile is already registered with prosper')]" );
-    private final By emailIdAlreadyExistError = By.xpath ( "//span[contains(.,'The email is already registered with prosper.')]");
+    private final By mobileNumberAlreadyExistError = By.xpath ( "//form/div/div[2]/span" );
+    private final By emailIdAlreadyExistError = By.xpath ( "//form/div/div[3]/span");
 
     private final By closeSignUpPopup = By.xpath ( "/html/body/div[2]/div/div/div/div[2]/div/div/div/div/div[1]" );
-    private final By areYouUaeResidentPopupHeading = By.xpath ( "(//p[1])[normalize-space()='Are you a UAE resident ?']" );
+    private final By areYouUaeResidentPopupHeading = By.xpath ( "/html/body/div[3]/div/div/div/div[2]/div/div/div/div/div/div/p[1]" );
     private final By yesUaeResident = By.xpath ( "//button[normalize-space()='Yes, I am a UAE Resident']" );
     private final By notUaeResident = By.xpath ( "//button[normalize-space()='No , I am not a UAE Resident']" );
     private final By passportUploadField = By.xpath ( "//input[@id='image_front_side']" );
 
-    public SignUpPage ( ) {
+    public SignUpPage ()
+    {
+
     }
 
     // --- Page Methods ---
@@ -48,7 +50,8 @@ public class SignUpPage extends BasePage {
      *
      * @return true if the page is loaded, false otherwise.
      */
-    public boolean isPageLoaded() {
+    public boolean isPageLoaded()
+    {
         // Using the robust helper method inherited from BasePage
         return isElementDisplayed(nameField);
     }
@@ -96,7 +99,6 @@ public class SignUpPage extends BasePage {
         click(continueBtn, WaitStrategy.CLICKABLE, "Continue Button");
         waitForPageLoad();
         System.out.println("I'm after Wait");
-
         if(isElementDisplayed ( mobileNumberAlreadyExistError ))
         {
             System.out.println ("I'm in IF" );
@@ -124,6 +126,7 @@ public class SignUpPage extends BasePage {
             {  System.out.println ("I'm here if doc.verification required" );
                 signUpResult.clickVerifyNow();
                 waitForPageLoad ();
+                highlightByElement (areYouUaeResidentPopupHeading  );
                 if(isElementDisplayed ( areYouUaeResidentPopupHeading ))
                 {
                     System.out.println ("I'm here if residential status choosing popup selection popup displayed" );
@@ -158,7 +161,8 @@ public class SignUpPage extends BasePage {
             otpPage.enterOtpAndVerify ( "mobile", "1234" );
             waitForPageLoad ();
             if(isDocVerifyRequired.equals ( "true" ))
-            {  System.out.println ("I'm here if doc.verification required" );
+            {
+                System.out.println ("I'm here if doc.verification required" );
                 signUpResult.clickVerifyNow();
                 waitForPageLoad ();
                 if(isElementDisplayed ( areYouUaeResidentPopupHeading ))
@@ -191,7 +195,8 @@ public class SignUpPage extends BasePage {
         return new MapPair<>( userStatus, testResults);
     }
 
-    public void closeSignUpPopupAndSigninWithOtp(String otpType) throws InterruptedException {
+    public void closeSignUpPopupAndSigninWithOtp(String otpType) throws InterruptedException
+    {
         DriverManager.getDriver ().findElement (closeSignUpPopup) .click ();
         Thread.sleep ( 5000 );
         new LoginPage ().loginToApplicationWithOTP ( otpType,"1234" );

@@ -35,8 +35,7 @@ public class SignUpResult extends BasePage
     private final By nextBtn =By.xpath ( "//span[starts-with(text(),'Next')]" );
     private final By skipAndTakeProfileTourBtn  =By.xpath ( "//span[starts-with(text(),'Skip')]" );
 
-    public
-    SignUpResult ( ) {
+    public SignUpResult ( ) {
     }
 
     // --- Page Methods ---

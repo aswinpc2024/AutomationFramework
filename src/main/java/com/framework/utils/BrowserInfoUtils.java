@@ -15,7 +15,8 @@ public final class BrowserInfoUtils
     /**
      * Private constructor to avoid external instantiation
      */
-    private BrowserInfoUtils() {
+    private BrowserInfoUtils()
+    {
     }
 
     public static String getBrowserInfo() {

@@ -6,6 +6,7 @@
 /***************************************************/
 package com.framework.driver;
 
+import com.epam.healenium.SelfHealingDriver;
 import com.framework.enums.BrowserType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -19,8 +20,8 @@ class Driver {
         // Private constructor to prevent instantiation
     }
 
-    public static
-    WebDriver initDriver(BrowserType browserType , String url) {
+    public static WebDriver initDriver(BrowserType browserType , String url)
+    {
         WebDriver driver = null;
 
         switch (browserType) {
@@ -39,6 +40,7 @@ class Driver {
             case CHROME:
             default:
                 driver = new ChromeDriver ();
+
                 driver.get ( url );
         }
 

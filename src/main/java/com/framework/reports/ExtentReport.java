@@ -41,7 +41,6 @@ class ExtentReport {
               ViewName.TEST, //ViewName.TAG, ViewName.CATEGORY, ViewName.AUTHOR,
              ViewName.DEVICE, ViewName.EXCEPTION, ViewName.LOG }) .apply();
 
-
             /*
              * You can even update the view of the ExtentRerport - Whta do you want to you
              * first, you can prioritize
@@ -94,7 +93,8 @@ class ExtentReport {
     }
 
     synchronized public static void addAuthors(AuthorType[] authors) {
-        for (AuthorType author : authors) {
+        for (AuthorType author : authors)
+        {
             ExtentManager.getExtentTest().assignAuthor(author.toString());
         }
     }

@@ -38,8 +38,9 @@ public class BasePage {
         highlightXpathElement ( element );
         element.clear();
         element.sendKeys(text);
-        System.out.println ("[DEBUG] "+text + " is entered in " + elementName);
-        ExtentLogger.pass(text + " is entered in " + elementName);
+        String maskedText = text.replaceAll("(?<=.{2}).", "*");
+        System.out.println ("[DEBUG] "+maskedText + " is entered in " + elementName);
+        ExtentLogger.pass(maskedText + " is entered in " + elementName);
     }
 
     protected String getText(By by, WaitStrategy waitStrategy) {

@@ -9,7 +9,8 @@ package com.framework.javaMailerAPI;
 import com.framework.constants.FrameworkConstants;
 
 public
-class EmailConfig {
+class EmailConfig
+{
     public static final String SERVER = "smtp.gmail.com";
     public static final String PORT = "587";
 

@@ -6,7 +6,7 @@ public class Sprint20 extends BasePage
 {
     public void passportVerification () throws InterruptedException {
         SignUpPage signUpPage = new SignUpPage ();
-        MapPair<String,String> results = signUpPage.fillSignUpFormAndSubmitWithNewUser ( "Arjun", "+918856879849", "qa36@gmail.com", "English" , "true","true");
+        MapPair<String,String> results = signUpPage.fillSignUpFormAndSubmitWithNewUser ( "Aswin", "+918856879855", "qa01@gmail.com", "English" , "true","true");
     }
 }
 

@@ -20,11 +20,10 @@ import com.aventstack.extentreports.Status;
 import static com.framework.reports.ExtentReport.testNameFormatter;
 
 @Listeners(ListenerClass.class)
-public class BaseTest {
-
+public class BaseTest
+{
     @BeforeSuite
-    public void beforeSuite()
-    {
+    public void beforeSuite() {
         System.out.println("[DEBUG] Initializing Extent Reports...");
 //        ExtentReport.initReports();  // Initialize ExtentReports
         if (ExtentReport.getExtentReports() == null) {
@@ -34,15 +33,13 @@ public class BaseTest {
     }
 
     @AfterSuite
-    public void afterSuite()
-    {
+    public void afterSuite() {
         System.out.println("[DEBUG] Flushing Extent Reports...");
 //        ExtentReport.flushReports();  // Flush reports after execution
     }
 
     @BeforeMethod
-    public void setUp(ITestResult result)
-    {
+    public void setUp(ITestResult result) {
         System.out.println("[DEBUG] Starting setup method...");
 
         // Initialize WebDriver
@@ -74,8 +71,7 @@ public class BaseTest {
     }
 
     @AfterMethod
-    public void tearDown(ITestResult result)
-    {
+    public void tearDown(ITestResult result) {
         System.out.println("[DEBUG] Starting tearDown method...");
 
         if (result.getStatus() == ITestResult.SUCCESS)
